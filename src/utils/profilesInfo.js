@@ -1,5 +1,6 @@
 const profiles = [
   {
+    id: 0,
     name: 'Chand',
     age: 22,
     address: 'Gujranwala',
@@ -7,6 +8,7 @@ const profiles = [
     company: 'Invozone',
   },
   {
+    id: 1,
     name: 'Zeeshan',
     age: 25,
     address: 'Lahore',
@@ -14,6 +16,7 @@ const profiles = [
     company: 'Invozone',
   },
   {
+    id: 2,
     name: 'Talaha',
     age: 32,
     address: 'Islamabad',
@@ -21,6 +24,7 @@ const profiles = [
     company: 'Invozone',
   },
   {
+    id: 3,
     name: 'Amir',
     age: 32,
     address: 'Wah Cantt',

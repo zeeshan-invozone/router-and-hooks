@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core';
 
 const skillData = [
@@ -13,8 +13,10 @@ const skillData = [
   { id: 8, name: 'laravel' },
   { id: 9, name: 'scss' },
 ];
+
 export default function Skills({ show, onClose }) {
   const [isChecked, setIsChecked] = useState([]);
+  const classes = useStyles();
 
   const handleSingleCheck = (e) => {
     const { name } = e.target;

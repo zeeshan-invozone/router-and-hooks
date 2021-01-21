@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AppBar, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import AddProfileForm from './AddProfileForm';
 const style = makeStyles(() => ({
   root: {
@@ -27,7 +28,9 @@ export default function HeaderNav() {
       <AppBar position="static">
         <Toolbar className={classes.root}>
           <Typography>
-            <strong>Profile</strong>
+            <Link to="/">
+              <strong>Profile</strong>
+            </Link>
           </Typography>
           <Typography className={classes.addNew} onClick={handleOpen}>
             Add New

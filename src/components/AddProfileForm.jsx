@@ -19,7 +19,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddProfileForm({ onClose, show }) {
   const classes = useStyles();
-  const { nameRef, ageRef, addressRef, companyRef, designationRef } = useRef();
+  const nameRef = useRef();
+  const ageRef = useRef();
+  const addressRef = useRef();
+  const companyRef = useRef();
+  const designationRef = useRef();
+  // const [nameRef, ageRef, addressRef, companyRef, designationRef] = useRef();
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [designation, setDesignation] = useState('');
@@ -27,7 +32,10 @@ export default function AddProfileForm({ onClose, show }) {
   const [company, setCompany] = useState('');
 
   const submitNewProfile = () => {
+    const id = Math.floor(Math.random(1, 50) * 10);
+    console.log(id);
     const newProfile = {
+      id,
       name,
       age,
       designation,
@@ -35,7 +43,7 @@ export default function AddProfileForm({ onClose, show }) {
       company,
     };
     profilesData.push(newProfile);
-    console.log('profileData', profilesData);
+    onClose();
   };
   return (
     <>
