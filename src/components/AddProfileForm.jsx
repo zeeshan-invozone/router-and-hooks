@@ -38,7 +38,7 @@ export default function AddProfileForm({ onClose, show }) {
     console.log('profileData', profilesData);
   };
   return (
-    <div>
+    <>
       <Dialog
         open={show}
         onClose={onClose}
@@ -99,6 +99,6 @@ export default function AddProfileForm({ onClose, show }) {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }
