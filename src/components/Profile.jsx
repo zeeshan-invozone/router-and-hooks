@@ -1,10 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdbreact';
-import { Chip, makeStyles } from '@material-ui/core';
+import React, { useEffect, useRef, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import profileInfo from '../utils/profilesInfo';
+import { Typography, Chip } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import GeneralInfo from './EditProfileModal/GeneralInfo';
-import Education from './EditProfileModal/Education';
 import Skills from './EditProfileModal/Skills';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    height: 300,
+    width: 650,
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    marginTop: '16px',
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+  gridMain: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  gridItem: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  control: {
+    padding: theme.spacing(2),
+  },
+  editIcon: {
+    cursor: 'pointer',
+  },
+}));
 
 const useStyle = makeStyles(() => ({
   editIcon: {
@@ -23,44 +55,28 @@ const useStyle = makeStyles(() => ({
     backgroundColor: 'green',
   },
 }));
-export default function Profile() {
+
+export default function Test() {
+  const [skills, setSkill] = useState([]);
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [openEdu, setOpenEdu] = useState(false);
   const [openSkill, setOpenSkill] = useState(false);
   const [info, setInfo] = useState({
     fname: 'zeeshan',
-    lname: 'akram',
+    designation: 'Developer',
     age: 22,
     address: 'Gujranwala',
-    phone: '03120876342',
+    company: '03120876342',
   });
-  const [skills, setSkill] = useState([]);
-  const [education, setEducation] = useState({
-    matric: 'science',
-    secondary: 'ics',
-    hireEdu: 'BSCS',
-    uni: 'Islami International',
-  });
-
   useEffect(() => {
     getGeneralInfo();
-    getEducationInfo();
     getSkills();
   }, []);
-
   const handleInfoOpen = () => {
     setOpen(true);
   };
   const handleInfoClose = () => {
-    getGeneralInfo();
     setOpen(false);
-  };
-  const handleEduOpen = () => {
-    setOpenEdu(true);
-  };
-  const handleEduClose = () => {
-    getEducationInfo();
-    setOpenEdu(false);
   };
   const handleSkillOpen = () => {
     setOpenSkill(true);
@@ -69,13 +85,24 @@ export default function Profile() {
     getSkills();
     setOpenSkill(false);
   };
+
+  const ShowBadge = () => {
+    const styles = useStyle();
+    return (
+      <>
+        {skills.length <= 4 ? (
+          <Typography className={styles.begeinner}>Beginner</Typography>
+        ) : skills.length <= 7 ? (
+          <Typography className={styles.mediocar}>Mediocar</Typography>
+        ) : (
+          <Typography className={styles.experts}>Expert</Typography>
+        )}
+      </>
+    );
+  };
   const getGeneralInfo = () => {
     const gf = localStorage.getItem('generalinfo');
     setInfo(JSON.parse(gf));
-  };
-  const getEducationInfo = () => {
-    const edu = localStorage.getItem('education');
-    setEducation(JSON.parse(edu));
   };
   const getSkills = () => {
     const skl = localStorage.getItem('skills');
@@ -94,157 +121,78 @@ export default function Profile() {
     }
   };
 
-  const ShowBadge = () => {
-    const styles = useStyle();
-    return (
-      <>
-        {skills.length <= 4 ? (
-          <div>
-            <span className={styles.begeinner}>Beginner</span>
-          </div>
-        ) : skills.length <= 7 ? (
-          <div>
-            <span className={styles.mediocar}>Mediocar</span>
-          </div>
-        ) : (
-          <div>
-            <span className={styles.experts}>Expert</span>
-          </div>
-        )}
-      </>
-    );
-  };
-  const classes = useStyle();
   return (
-    <div>
-      <MDBContainer>
-        <MDBRow>
-          <MDBCol md="12" className="d-flex text-center flex-column">
-            <MDBCol>
-              <MDBCard>
-                <MDBCardBody className="mx-4">
-                  <MDBRow className="d-flex justify-content-between">
-                    <h6 className="dark-grey-text mb-5">
-                      <strong>General Information</strong>
-                    </h6>
-                    <EditIcon
-                      color="error"
-                      className={classes.editIcon}
-                      onClick={handleInfoOpen}
-                    />
-                  </MDBRow>
-
-                  <MDBRow className="d-flex justify-content-between align-items-baseline">
-                    <h6>
-                      <strong>FirstName</strong>
-                    </h6>
-                    <span>{info.fname}</span>
-                  </MDBRow>
-                  <MDBRow className="d-flex justify-content-between align-items-baseline">
-                    <h6>
-                      <strong>LastName</strong>
-                    </h6>
-                    <span>{info.lname}</span>
-                  </MDBRow>
-                  <MDBRow className="d-flex justify-content-between align-items-baseline">
-                    <h6>
-                      <strong>Age</strong>
-                    </h6>
-                    <span>{info.age}</span>
-                  </MDBRow>
-                  <MDBRow className="d-flex justify-content-between align-items-baseline">
-                    <h6>
-                      <strong>Address</strong>
-                    </h6>
-                    <span>{info.address}</span>
-                  </MDBRow>
-                  <MDBRow className="d-flex justify-content-between align-items-baseline">
-                    <h6>
-                      <strong>Phone</strong>
-                    </h6>
-                    <span>{info.phone}</span>
-                  </MDBRow>
-                </MDBCardBody>
-              </MDBCard>
-            </MDBCol>
-            <MDBCol>
-              <MDBCard>
-                <MDBCardBody className="mx-4">
-                  <MDBRow className="d-flex justify-content-between">
-                    <h6 className="dark-grey-text mb-5">
-                      <strong>Education</strong>
-                    </h6>
-                    <EditIcon
-                      color="error"
-                      className={classes.editIcon}
-                      onClick={handleEduOpen}
-                    />
-                  </MDBRow>
-                  <MDBRow className="d-flex justify-content-between align-items-baseline">
-                    <h6>
-                      <strong>Matric</strong>
-                    </h6>
-                    <span>{education.matric}</span>
-                  </MDBRow>
-                  <MDBRow className="d-flex justify-content-between align-items-baseline">
-                    <h6>
-                      <strong>Secondary</strong>
-                    </h6>
-                    <span>{education.secondary}</span>
-                  </MDBRow>
-                  <MDBRow className="d-flex justify-content-between align-items-baseline">
-                    <h6>
-                      <strong>Hire Education</strong>
-                    </h6>
-                    <span>{education.hireEdu}</span>
-                  </MDBRow>
-                  <MDBRow className="d-flex justify-content-between align-items-baseline">
-                    <h6>
-                      <strong>University</strong>
-                    </h6>
-                    <span>{education.uni}</span>
-                  </MDBRow>
-                </MDBCardBody>
-              </MDBCard>
-            </MDBCol>
-            <MDBCol>
-              <MDBCard>
-                <MDBCardBody className="mx-4">
-                  <MDBRow className="d-flex justify-content-between">
-                    <h6 className="dark-grey-text mb-5">
-                      <strong>Skills</strong>
-                    </h6>
-                    <ShowBadge />
-                    <EditIcon
-                      color="error"
-                      className={classes.editIcon}
-                      onClick={handleSkillOpen}
-                    />
-                  </MDBRow>
-                  <div className="text-left">
-                    {skills.length > 0
-                      ? skills.map((skill, index) => (
-                          <span key={index} className="pr-2 pb-2 mb-2">
-                            <Chip label={skill.name} color="primary" size="small" />
-                          </span>
-                        ))
-                      : 'Skills Not Added Yet'}
-                  </div>
-                </MDBCardBody>
-              </MDBCard>
-            </MDBCol>
-          </MDBCol>
-        </MDBRow>
-        <MDBRow>
-          {open && <GeneralInfo show={open} onClose={handleInfoClose} info={info} />}
-        </MDBRow>
-        <MDBRow>
-          {openEdu && <Education show={openEdu} onClose={handleEduClose} />}
-        </MDBRow>
-        <MDBRow>
-          {openSkill && <Skills show={openSkill} onClose={handleSkillClose} />}
-        </MDBRow>
-      </MDBContainer>
-    </div>
+    <Grid container className={classes.root} spacing={2}>
+      <Grid item xs={12} className={classes.gridMain}>
+        <Paper className={classes.paper} elevation={5}>
+          <Grid container className={classes.items}>
+            <Grid item xs={12} className={classes.gridItem} m={3}>
+              <Typography>
+                <strong>General Information</strong>
+              </Typography>
+              <EditIcon
+                color="error"
+                className={classes.editIcon}
+                onClick={handleInfoOpen}
+              />
+            </Grid>
+            <Grid item xs={12} className={classes.gridItem}>
+              <Typography>
+                <strong>Name</strong>
+              </Typography>
+              <Typography>{info.fname}</Typography>
+            </Grid>
+            <Grid item xs={12} className={classes.gridItem}>
+              <Typography>
+                <strong>Address</strong>
+              </Typography>
+              <Typography>{info.address}</Typography>
+            </Grid>
+            <Grid item xs={12} className={classes.gridItem}>
+              <Typography>
+                <strong>Designation</strong>
+              </Typography>
+              <Typography>{info.designation}</Typography>
+            </Grid>
+            <Grid item xs={12} className={classes.gridItem}>
+              <Typography>
+                <strong>Age</strong>
+              </Typography>
+              <Typography>{info.age}</Typography>
+            </Grid>
+            <Grid item xs={12} className={classes.gridItem}>
+              <Typography>
+                <strong>Company</strong>
+              </Typography>
+              <Typography>{info.company}</Typography>
+            </Grid>
+          </Grid>
+          <Grid container className={classes.items}>
+            <Grid item xs={12} className={classes.gridItem} my={3}>
+              <Typography>
+                <strong>Skills</strong>
+              </Typography>
+              <ShowBadge />
+              <EditIcon
+                color="error"
+                className={classes.editIcon}
+                onClick={handleSkillOpen}
+              />
+            </Grid>
+            <Grid item xs={12} className={classes.gridItem}>
+              {skills.length > 0
+                ? skills.map((skill, index) => (
+                    <span key={index} className="pr-2 pb-2 mb-2">
+                      <Chip label={skill.name} color="primary" size="small" />
+                    </span>
+                  ))
+                : 'Skills Not Added Yet'}
+            </Grid>
+          </Grid>
+        </Paper>
+        {open && <GeneralInfo show={open} onClose={handleInfoClose} />}
+        {openSkill && <Skills show={openSkill} onClose={handleSkillClose} />}
+      </Grid>
+    </Grid>
   );
 }

@@ -3,19 +3,19 @@ import { Button, Dialog, DialogActions, DialogContent } from '@material-ui/core'
 
 export default function GeneralInfo(props) {
   const [fname, setfName] = useState('');
-  const [lname, setlName] = useState('');
+  const [designation, setDesignation] = useState('');
   const [age, setAge] = useState('');
   const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
+  const [company, setCompany] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const gf = {
       fname,
-      lname,
+      designation,
       age,
       address,
-      phone,
+      company,
     };
     localStorage.setItem('generalinfo', JSON.stringify(gf));
     props.onClose();
@@ -44,9 +44,9 @@ export default function GeneralInfo(props) {
             <input
               type="text"
               className="form-control mb-3"
-              name="lname"
-              placeholder="LastName"
-              onChange={(e) => setlName(e.target.value)}
+              name="designation"
+              placeholder="Designation"
+              onChange={(e) => setDesignation(e.target.value)}
             />
             <input
               type="text"
@@ -65,9 +65,9 @@ export default function GeneralInfo(props) {
             <input
               type="text"
               className="form-control mb-3"
-              name="phone"
-              placeholder="phone"
-              onChange={(e) => setPhone(e.target.value)}
+              name="company"
+              placeholder="Company"
+              onChange={(e) => setCompany(e.target.value)}
             />
           </form>
         </DialogContent>
