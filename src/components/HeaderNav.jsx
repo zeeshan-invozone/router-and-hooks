@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AppBar, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import AddProfileForm from './AddProfileForm';
 const style = makeStyles(() => ({
   root: {
     display: 'flex',
@@ -11,10 +12,16 @@ const style = makeStyles(() => ({
   },
 }));
 export default function HeaderNav() {
+  const [open, setOpen] = useState(false);
   const classes = style();
-  const addNewProfile = () => {
-    console.log('click');
+
+  const handleOpen = () => {
+    setOpen(true);
   };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div>
       <AppBar position="static">
@@ -22,10 +29,12 @@ export default function HeaderNav() {
           <Typography>
             <strong>Profile</strong>
           </Typography>
-          <Typography className={classes.addNew} onClick={addNewProfile}>
+          <Typography className={classes.addNew} onClick={handleOpen}>
             Add New
           </Typography>
         </Toolbar>
+
+        {open && <AddProfileForm show={open} onClose={handleClose} />}
       </AppBar>
     </div>
   );

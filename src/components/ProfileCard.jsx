@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     color: 'white',
   },
+  devLevel: {
+    backgroundColor: 'green',
+    display: 'inline',
+    padding: '0 5px',
+    color: 'white',
+  },
 }));
 
 export default function ProfileCard({ p }) {
@@ -38,7 +44,9 @@ export default function ProfileCard({ p }) {
   return (
     <>
       <Card className={classes.root}>
-        <div className="text-white">Beginner</div>
+        <Typography className={classes.devLevel}>
+          <strong>Expert</strong>
+        </Typography>
         <CardActionArea>
           <CardMedia className={classes.avatarPosition}>
             <Avatar
