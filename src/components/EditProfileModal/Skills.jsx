@@ -16,7 +16,6 @@ const skillData = [
 
 export default function Skills({ show, onClose }) {
   const [isChecked, setIsChecked] = useState([]);
-  const classes = useStyles();
 
   const handleSingleCheck = (e) => {
     const { name } = e.target;

@@ -37,6 +37,8 @@ export default function EditProfile() {
   const addPRef = useRef();
 
   const { name, age, designation, company, address, id } = location.state.data;
+  console.log('data', location.state.data);
+  console.log('index', location.state.index);
   const [names, setName] = useState(name);
   const [ages, setAge] = useState(age);
   const [designations, setDesignation] = useState(designation);

@@ -84,10 +84,6 @@ export default function Test() {
       </>
     );
   };
-  const getGeneralInfo = () => {
-    const gf = localStorage.getItem('generalinfo');
-    setInfo(JSON.parse(gf));
-  };
   const getSkills = () => {
     const skl = localStorage.getItem('skills');
     if (skl) {

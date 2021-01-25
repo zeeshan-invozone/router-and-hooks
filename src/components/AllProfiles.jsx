@@ -71,7 +71,7 @@ export default function AllProfiles() {
             <StyledTableCell align="right">Address</StyledTableCell>
             <StyledTableCell align="right">Designation</StyledTableCell>
             <StyledTableCell align="right">Company</StyledTableCell>
-            <StyledTableCell align="right"></StyledTableCell>
+            <StyledTableCell align="right">Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -87,7 +87,7 @@ export default function AllProfiles() {
               <StyledTableCell align="right">
                 <Button
                   color="secondary"
-                  variant="outlined"
+                  variant="contained"
                   onClick={() => history.push('/edit', { data: row })}
                 >
                   Edit
