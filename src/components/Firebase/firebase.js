@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-const firebaseConfig = firebase.initializeApp({
+let firebaseConfig = firebase.initializeApp({
   apiKey: 'AIzaSyAtFPwPxGhyKFZt03DycmrVxK2FpfiJvYM',
   authDomain: 'user-registration-6b9cd.firebaseapp.com',
   projectId: 'user-registration-6b9cd',
@@ -10,4 +10,4 @@ const firebaseConfig = firebase.initializeApp({
 
 const db = firebaseConfig.firestore();
 
-export { db };
+export { db, firebaseConfig };

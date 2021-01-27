@@ -6,11 +6,10 @@ import {
   DialogActions,
   DialogContent,
   makeStyles,
-  CircularProgress,
 } from '@material-ui/core';
 import profilesData from '../utils/profilesInfo';
 import { useForm } from 'react-hook-form';
-import { db } from './Firebase/firebase';
+import { db, firebaseConfig } from './Firebase/firebase';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -18,68 +17,55 @@ const useStyles = makeStyles((theme) => ({
       width: '25ch',
     },
   },
+  dialog: {
+    maxWidth: '350px',
+    minWidth: '350px',
+    textAlign: 'center',
+  },
+  error: {
+    color: 'red',
+  },
 }));
 
 export default function AddProfileForm({ onClose, show }) {
-  useEffect(() => {
-    getAllUsers();
-  }, []);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const classes = useStyles();
-  const nameRef = useRef();
-  const ageRef = useRef();
-  const addressRef = useRef();
-  const companyRef = useRef();
-  const designationRef = useRef();
   const formRef = useRef();
-  // const [nameRef, ageRef, addressRef, companyRef, designationRef] = useRef();
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [designation, setDesignation] = useState('');
   const [address, setAddress] = useState('');
   const [company, setCompany] = useState('');
-  const [loader, setLoader] = useState(false);
-  const [users, setUsers] = useState([]);
 
-  const submitNewProfile = () => {
-    const id = Math.floor(Math.random(1, 50) * 10);
-    // console.log('formRef.current', formRef.current['name'].value);
+  const onSubmits = () => {
     const newProfile = {
-      id,
       name,
       age,
       designation,
       address,
       company,
     };
-    console.log('allUsers users', users);
-    db.collection('users')
-      .add({
-        name,
-        age,
-        designation,
-        address,
-        company,
-      })
-      .then((res) => {
-        alert('user created successfully');
-        console.log('User created successfully', res);
-      })
-      .catch((error) => {
-        console.log('something went wrong', error);
-      });
+    const realUser = firebaseConfig.database().ref('User');
+    realUser.push(newProfile);
+    // db.collection('users')
+    //   .add({
+    //     name,
+    //     age,
+    //     designation,
+    //     address,
+    //     company,
+    //   })
+    //   .then((res) => {
+    //     alert('user created successfully');
+    //   })
+    //   .catch((error) => {
+    //     console.log('something went wrong', error);
+    //   });
     profilesData.push(newProfile);
     onClose();
   };
-  const getAllUsers = async () => {
-    const users = await db.collection('users').get();
-    const allUsers = [];
-    users.forEach((doc) => {
-      let user = doc.data();
-      allUsers.push(user);
-    });
-    console.log('all', allUsers);
-    setUsers(allUsers);
+  const Error = ({ name }) => {
+    return <div className={classes.error}>{name}</div>;
   };
   return (
     <>
@@ -87,6 +73,7 @@ export default function AddProfileForm({ onClose, show }) {
         open={show}
         onClose={onClose}
         aria-labelledby="responsive-dialog-title"
+        className={classes.dialog}
       >
         <DialogContent>
           <div className="text-center">
@@ -95,58 +82,65 @@ export default function AddProfileForm({ onClose, show }) {
             </h5>
           </div>
           <form
-            noValidate
-            ref={formRef}
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmits)}
             autoComplete="off"
             className={classes.root}
+            ref={formRef}
           >
             <TextField
-              id="name"
+              name="nam"
               label="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              inputRef={register}
+              inputRef={register({ required: true })}
+              helperText={errors.nam ? <Error name="name is required" /> : ''}
             />
             <TextField
-              inputRef={register}
-              id="age"
+              inputRef={register({ required: true })}
+              name="ag"
               label="Age"
               value={age}
               onChange={(e) => setAge(e.target.value)}
+              helperText={errors.ag ? <Error name="age is required" /> : ''}
             />
             <TextField
-              inputRef={designationRef}
-              id="designation"
+              inputRef={register({ required: true })}
+              name="desig"
               label="Designation"
               value={designation}
               onChange={(e) => setDesignation(e.target.value)}
+              helperText={
+                errors.desig ? <Error name="designation is required" /> : ''
+              }
             />
             <TextField
-              inputRef={companyRef}
-              id="company"
+              inputRef={register({ required: true })}
+              name="com"
               label="Company"
               value={company}
               onChange={(e) => setCompany(e.target.value)}
+              helperText={errors.com ? <Error name="company is required" /> : ''}
             />
             <TextField
-              inputRef={addressRef}
-              id="address"
+              inputRef={register({ required: true })}
+              name="add"
               label="Address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
+              helperText={errors.add ? <Error name="address is required" /> : ''}
+            />
+            <input
+              type="submit"
+              className="mt-3"
+              style={{ backgroundColor: 'blue', color: 'white', padding: '3px 5px' }}
             />
           </form>
         </DialogContent>
-        <DialogActions>
+        {/* <DialogActions>
           <Button color="primary" onClick={onClose}>
             Cancel
           </Button>
-          <Button color="primary" onClick={submitNewProfile}>
-            {/* <CircularProgress color="inherit" /> */}
-            Save
-          </Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     </>
   );

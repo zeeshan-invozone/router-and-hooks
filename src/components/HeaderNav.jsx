@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { AppBar, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import AddProfileForm from './AddProfileForm';
 
 const style = makeStyles(() => ({
   root: {
@@ -18,16 +17,7 @@ const style = makeStyles(() => ({
   },
 }));
 export default function HeaderNav() {
-  const [open, setOpen] = useState(false);
   const classes = style();
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <div>
       <AppBar position="static">
@@ -42,12 +32,12 @@ export default function HeaderNav() {
               React Table
             </Link>
           </Typography>
-          <Typography className={classes.addNew} onClick={handleOpen}>
-            Add New
+          <Typography>
+            <Link className={classes.profile} to="/styled-component">
+              Styled
+            </Link>
           </Typography>
         </Toolbar>
-
-        {open && <AddProfileForm show={open} onClose={handleClose} />}
       </AppBar>
     </div>
   );

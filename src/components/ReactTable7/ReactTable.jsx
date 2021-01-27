@@ -1,35 +1,68 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import Axios from 'axios';
-import { useTable } from 'react-table';
-import userData from '../../utils/profilesInfo';
-import styled from 'styled-components';
+import UserData from '../../utils/profilesInfo';
 import { useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import TableContainer from './TableContainer';
-const Style = styled.div`
-  width: 100%;
-  table {
-    width: 100%;
-    border-spacing: 0;
-  }
-
-  th,
-  td {
-    border: 1px solid;
-    margin: 0;
-    padding: 0.5rem;
-  }
-`;
+import AddProfileForm from '../AddProfileForm';
+import { db, firebaseConfig } from '../Firebase/firebase';
 
 export default function ReactTable() {
-  const [data1, setData] = useState([]);
-  //   useEffect(async () => {
-  //     const response = await Axios.get('https://randomuser.me/api/?results=100');
-  //     console.log('respnse');
-  //     setData(response.data.results);
-  //   }, []);
-  const data = useMemo(() => userData, []);
+  const [open, setOpen] = useState(false);
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const getAllUsers = async () => {
+    // firebaseConfig
+    //   .database()
+    //   .ref('User')
+    //   .on('value', (snapshot) => {
+    //     const obj = snapshot.val();
+    //     if (obj) {
+    //       const values = Object.keys(obj).map(function (key) {
+    //         return obj[key];
+    //       });
+    //       setUsers(values);
+    //     } else {
+    //       setUsers('');
+    //     }
+    //   });
+    const todoRef = firebaseConfig.database().ref('User');
+    todoRef.on('value', (snapshot) => {
+      const user = snapshot.val();
+      const userList = [];
+      for (let id in user) {
+        userList.push({ id, ...user[id] });
+      }
+      setUsers(userList);
+      // setTodoList(todoList);
+    });
+    // const user = await db.collection('users').get();
+    // const allUsers = [];
+    // user.forEach((doc) => {
+    //   let userData = doc.data();
+    //   allUsers.push(userData);
+    // });
+    // setUsers(allUsers);
+  };
+
+  const data = useMemo(() => users, [users]);
   let history = useHistory();
+  const handleDelete = (e, cell) => {
+    e.preventDefault();
+    const userRef = firebaseConfig
+      .database()
+      .ref('User')
+      .child(cell.row.original.id);
+    userRef.remove();
+  };
   const columns = React.useMemo(
     () => [
       {
@@ -51,6 +84,20 @@ export default function ReactTable() {
       {
         Header: 'Company',
         accessor: 'company',
+      },
+      {
+        Header: 'Delete',
+        accessor: 'delete',
+        // eslint-disable-next-line react/display-name
+        Cell: (cell) => (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={(e) => handleDelete(e, cell)}
+          >
+            Delete
+          </Button>
+        ),
       },
       {
         Header: 'Edit',
@@ -76,8 +123,22 @@ export default function ReactTable() {
   );
 
   return (
-    <>
-      <TableContainer columns={columns} data={data} />
-    </>
+    <div className="m-5 text-center">
+      <Button
+        className="m-2"
+        color="primary"
+        variant="contained"
+        onClick={handleOpen}
+      >
+        Add New User
+      </Button>
+      {users.length > 0 ? (
+        <TableContainer columns={columns} data={data} />
+      ) : (
+        'User not Found yet Please add new One'
+      )}
+
+      {open && <AddProfileForm show={open} onClose={handleClose} />}
+    </div>
   );
 }

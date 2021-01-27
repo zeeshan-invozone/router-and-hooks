@@ -17,6 +17,7 @@ export default function Routes() {
           <Route exact path="/" component={RemoveDefault} />
           <Route exact path="/edit" component={EditProfile} />
           <Route exact path="/react-table" component={ReactTable} />
+          <Route exact path="/styled-component" component={HelloWorld} />
         </Switch>
       </Router>
     </div>

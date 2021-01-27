@@ -6,26 +6,25 @@ const options = [
   { value: 'vanilla', label: 'Vanilla' },
 ];
 export default function RemoveDefault() {
-  const selectRef = useRef({ value: 'strawberry', label: 'Strawberry' });
-  // const [input, setInput] = useState(null);
-  const [isClick, setClicked] = useState(false);
-
+  const selectRef = useRef();
   const handleSubmit = () => {
-    // const dv = selectRef.current.select.props.options[1];
-    const dv1 = selectRef.current.props.defaultValue;
-    setClicked(true);
+    const dv1 = selectRef.current.select.props.onChange({
+      value: 'chand',
+      label: 'chand',
+    });
     console.log(dv1);
+    console.log('select', selectRef.current.select.props);
   };
   const handleChage = (e) => {
     console.log('target:', e.value);
+    // const dv = selectRef.current.select.props.options[1];
   };
   return (
     <div className="mt-3 p-3">
       <Select
         options={options}
         ref={selectRef}
-        // defaultValue={selectRef.current}
-        defaultValue={isClick ? options[0] : selectRef.current}
+        defaultValue={options[0]}
         placeholder="Select Values"
         onChange={handleChage}
       />

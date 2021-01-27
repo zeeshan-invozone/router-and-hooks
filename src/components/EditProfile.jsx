@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { TextField, makeStyles, Button } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router-dom';
-import fileData from '../utils/profilesInfo';
-import Profile from '../components/Profile';
+import { firebaseConfig } from './Firebase/firebase';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -38,7 +37,6 @@ export default function EditProfile() {
 
   const { name, age, designation, company, address, id } = location.state.data;
   console.log('data', location.state.data);
-  console.log('index', location.state.index);
   const [names, setName] = useState(name);
   const [ages, setAge] = useState(age);
   const [designations, setDesignation] = useState(designation);
@@ -46,38 +44,21 @@ export default function EditProfile() {
   const [companys, setCompany] = useState(company);
 
   const updateProfile = () => {
-    fileData[id].name = nameRef.current.value;
-    fileData[id].age = ageRef.current.value;
-    fileData[id].address = addressRef.current.value;
-    fileData[id].designation = designationRef.current.value;
-    fileData[id].company = companyRef.current.value;
-
-    history.push('/');
-  };
-  const handleAddProfile = () => {
-    setName('');
-    setAge('');
-    setCompany('');
-    setDesignation('');
-    setAddress('');
-    setIsAdd(true);
-    updateRef.current.remove();
-    addPRef.current.remove();
-  };
-  const handleAddNewProfile = () => {
-    const pid = Math.floor(Math.random(1, 20) * 10);
-    const newP = {
-      id: pid,
+    // fileData[id].name = nameRef.current.value;
+    // fileData[id].age = ageRef.current.value;
+    // fileData[id].address = addressRef.current.value;
+    // fileData[id].designation = designationRef.current.value;
+    // fileData[id].company = companyRef.current.value;
+    const userRef = firebaseConfig.database().ref('User').child(id);
+    userRef.update({
       name: names,
       age: ages,
       designation: designations,
       company: companys,
       address: addresss,
-    };
-    fileData.push(newP);
-    history.push('/');
+    });
+    history.push('/react-table');
   };
-
   return (
     <div>
       <form noValidate ref={formRef} autoComplete="off" className={classes.root}>
@@ -126,27 +107,7 @@ export default function EditProfile() {
         >
           Update
         </Button>
-        <Button
-          className={classes.btn}
-          variant="contained"
-          onClick={handleAddProfile}
-          ref={addPRef}
-        >
-          Add Profile
-        </Button>
-        {isAdd && (
-          <Button
-            className={classes.btn}
-            variant="contained"
-            onClick={handleAddNewProfile}
-          >
-            Add
-          </Button>
-        )}
       </form>
-      <div>
-        <Profile />
-      </div>
     </div>
   );
 }
