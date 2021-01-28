@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, makeStyles, Toolbar, Typography, Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 const style = makeStyles(() => ({
@@ -14,6 +14,10 @@ const style = makeStyles(() => ({
   profile: {
     textDecoration: 'none',
     color: 'white',
+    '&:hover': {
+      textDecoration: 'none',
+      color: 'white',
+    },
   },
 }));
 export default function HeaderNav() {
@@ -21,22 +25,33 @@ export default function HeaderNav() {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar className={classes.root}>
-          <Typography>
-            <Link to="/" className={classes.profile}>
-              <strong>Profile</strong>
-            </Link>
-          </Typography>
-          <Typography>
-            <Link className={classes.profile} to="/react-table">
-              React Table
-            </Link>
-          </Typography>
-          <Typography>
-            <Link className={classes.profile} to="/styled-component">
-              Styled
-            </Link>
-          </Typography>
+        <Toolbar>
+          <Grid container>
+            <Grid item xs={6}>
+              <Typography>
+                <Link to="/" className={classes.profile}>
+                  <strong>Profile</strong>
+                </Link>
+              </Typography>
+            </Grid>
+            <Grid item xs={6} className="d-flex justify-content-around">
+              <Typography>
+                <Link className={classes.profile} to="/remove-tag">
+                  Remove Tags
+                </Link>
+              </Typography>
+              <Typography>
+                <Link className={classes.profile} to="/styled-component">
+                  Styled
+                </Link>
+              </Typography>
+              <Typography>
+                <Link className={classes.profile} to="/assignment">
+                  Assignment
+                </Link>
+              </Typography>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
     </div>

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { TextField, makeStyles, Button } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router-dom';
-import { firebaseConfig } from './Firebase/firebase';
+import { firebaseConfig, db } from './Firebase/firebase';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -49,15 +49,23 @@ export default function EditProfile() {
     // fileData[id].address = addressRef.current.value;
     // fileData[id].designation = designationRef.current.value;
     // fileData[id].company = companyRef.current.value;
-    const userRef = firebaseConfig.database().ref('User').child(id);
-    userRef.update({
-      name: names,
-      age: ages,
-      designation: designations,
-      company: companys,
-      address: addresss,
-    });
-    history.push('/react-table');
+    // const userRef = firebaseConfig.database().ref('User').child(id);
+    const userRef = db.collection('users').doc(id);
+    userRef
+      .set({
+        name: names,
+        age: ages,
+        designation: designations,
+        company: companys,
+        address: addresss,
+      })
+      .then((docRef) => {
+        console.log(docRef);
+      })
+      .catch((error) => {
+        console.error('Error adding document: ', error);
+      });
+    history.push('/');
   };
   return (
     <div>

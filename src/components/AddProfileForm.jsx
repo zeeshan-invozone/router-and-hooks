@@ -45,23 +45,23 @@ export default function AddProfileForm({ onClose, show }) {
       address,
       company,
     };
-    const realUser = firebaseConfig.database().ref('User');
-    realUser.push(newProfile);
-    // db.collection('users')
-    //   .add({
-    //     name,
-    //     age,
-    //     designation,
-    //     address,
-    //     company,
-    //   })
-    //   .then((res) => {
-    //     alert('user created successfully');
-    //   })
-    //   .catch((error) => {
-    //     console.log('something went wrong', error);
-    //   });
-    profilesData.push(newProfile);
+    // const realUser = firebaseConfig.database().ref('User');
+    // realUser.push(newProfile);
+    db.collection('users')
+      .add({
+        name,
+        age,
+        designation,
+        address,
+        company,
+      })
+      .then((res) => {
+        alert('user created successfully');
+        console.log('res', res);
+      })
+      .catch((error) => {
+        console.log('something went wrong', error);
+      });
     onClose();
   };
   const Error = ({ name }) => {

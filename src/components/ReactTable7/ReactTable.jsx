@@ -16,6 +16,7 @@ export default function ReactTable() {
     setOpen(true);
   };
   const handleClose = () => {
+    getAllUsers();
     setOpen(false);
   };
 
@@ -34,34 +35,39 @@ export default function ReactTable() {
     //       setUsers('');
     //     }
     //   });
-    const todoRef = firebaseConfig.database().ref('User');
-    todoRef.on('value', (snapshot) => {
-      const user = snapshot.val();
-      const userList = [];
-      for (let id in user) {
-        userList.push({ id, ...user[id] });
-      }
-      setUsers(userList);
-      // setTodoList(todoList);
-    });
-    // const user = await db.collection('users').get();
-    // const allUsers = [];
-    // user.forEach((doc) => {
-    //   let userData = doc.data();
-    //   allUsers.push(userData);
+    // const todoRef = firebaseConfig.database().ref('User');
+    // todoRef.on('value', (snapshot) => {
+    //   const user = snapshot.val();
+    //   const userList = [];
+    //   for (let id in user) {
+    //     userList.push({ id, ...user[id] });
+    //   }
+    //   setUsers(userList);
     // });
-    // setUsers(allUsers);
+    const user = await db.collection('users').get();
+    const allUsers = [];
+    user.forEach((doc) => {
+      let userData = doc.data();
+      userData['id'] = doc.id;
+      allUsers.push(userData);
+    });
+    setUsers(allUsers);
   };
 
   const data = useMemo(() => users, [users]);
   let history = useHistory();
   const handleDelete = (e, cell) => {
     e.preventDefault();
-    const userRef = firebaseConfig
-      .database()
-      .ref('User')
-      .child(cell.row.original.id);
-    userRef.remove();
+    const id = cell.row.original.id;
+    db.collection('users')
+      .doc(id)
+      .delete()
+      .then(() => {
+        console.log('Document successfully deleted!');
+      })
+      .catch((error) => {
+        console.error('Error removing document: ', error);
+      });
   };
   const columns = React.useMemo(
     () => [
