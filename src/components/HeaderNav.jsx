@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { AppBar, makeStyles, Toolbar, Typography, Grid } from '@material-ui/core';
+import {
+  AppBar,
+  makeStyles,
+  Toolbar,
+  Typography,
+  Grid,
+  Button,
+} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 const style = makeStyles(() => ({
@@ -36,11 +43,6 @@ export default function HeaderNav() {
             </Grid>
             <Grid item xs={6} className="d-flex justify-content-around">
               <Typography>
-                <Link className={classes.profile} to="/remove-tag">
-                  Remove Tags
-                </Link>
-              </Typography>
-              <Typography>
                 <Link className={classes.profile} to="/styled-component">
                   Styled
                 </Link>
@@ -50,6 +52,9 @@ export default function HeaderNav() {
                   Assignment
                 </Link>
               </Typography>
+              <Button color="inherit" onClick={() => fire.auth().signOut()}>
+                Logout
+              </Button>
             </Grid>
           </Grid>
         </Toolbar>
