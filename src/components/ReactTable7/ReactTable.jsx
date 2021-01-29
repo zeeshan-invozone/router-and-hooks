@@ -49,6 +49,7 @@ export default function ReactTable() {
     user.forEach((doc) => {
       let userData = doc.data();
       userData['id'] = doc.id;
+      console.log('userDate', userData);
       allUsers.push(userData);
     });
     setUsers(allUsers);

@@ -68,7 +68,7 @@ export default function AdditionalInfo() {
   const imageOnChange = async (e) => {
     setLoader(true);
     const file = e.target.files[0];
-    const fireRef = fire.storage().ref();
+    const fireRef = firebaseConfig.storage().ref();
     const fileRef = fireRef.child(file.name);
     await fileRef.put(file);
     const finalUrl = await fileRef.getDownloadURL();
@@ -108,16 +108,10 @@ export default function AdditionalInfo() {
             <PersonAddRoundedIcon />
             <input type='file' style={{ display: 'none' }} />
           </span> */}
-          <form
-            className={classes.form}
-            noValidate
-            autoComplete="off"
-            onSubmit={handleSubmit}
-          >
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  autoComplete="off"
                   name="name"
                   variant="outlined"
                   required
@@ -134,7 +128,7 @@ export default function AdditionalInfo() {
                   fullWidth
                   label="Age"
                   name="age"
-                  autoComplete="off"
+                  type="number"
                   onChange={(e) => setAge(e.target.value)}
                 />
               </Grid>

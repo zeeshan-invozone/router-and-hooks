@@ -5,7 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -52,7 +51,7 @@ export default function SignIn({ history }) {
   );
   const { currentUser } = useContext(AuthContext);
   if (currentUser) {
-    return <Redirect to="/" />;
+    return <Redirect to="/react-table" />;
   }
   return (
     <Container component="main" maxWidth="xs">
@@ -99,7 +98,7 @@ export default function SignIn({ history }) {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link to="/reset-password" variant="body2">
+              <Link to="/forgot-password" variant="body2">
                 Forgot password?
               </Link>
             </Grid>

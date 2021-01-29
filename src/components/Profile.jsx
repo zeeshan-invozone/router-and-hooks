@@ -2,16 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { Typography, Chip } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import Skills from './EditProfileModal/Skills';
+import { db, firebaseConfig } from './Firebase/firebase';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   paper: {
-    height: 100,
-    width: 500,
+    width: 350,
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'column',
@@ -27,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   gridItem: {
     display: 'flex',
     justifyContent: 'space-between',
+    margin: '10px',
   },
   control: {
     padding: theme.spacing(2),
@@ -34,73 +34,31 @@ const useStyles = makeStyles((theme) => ({
   editIcon: {
     cursor: 'pointer',
   },
-}));
-
-const useStyle = makeStyles(() => ({
-  editIcon: {
-    cursor: 'pointer',
-  },
-  begeinner: {
-    color: 'white',
-    backgroundColor: 'blue',
-  },
-  mediocar: {
-    color: 'white',
-    backgroundColor: 'yellow',
-  },
-  experts: {
-    color: 'white',
-    backgroundColor: 'green',
+  items: {
+    paddingBottom: '2rem',
   },
 }));
 
-export default function Test() {
-  const [skills, setSkill] = useState([]);
+export default function Profile() {
+  const [pData, setPdata] = useState('');
   const classes = useStyles();
-  const [openSkill, setOpenSkill] = useState(false);
   useEffect(() => {
-    getSkills();
+    getUserInfo();
   }, []);
-
-  const handleSkillOpen = () => {
-    setOpenSkill(true);
+  const getUserInfo = async () => {
+    const { uid } = firebaseConfig.auth().currentUser;
+    const user = await db.collection('users').get();
+    const profiles = [];
+    user.forEach((doc) => {
+      const profile = doc.data();
+      profiles.push(profile);
+    });
+    const finalP = profiles.filter((item) => {
+      return item.uid === uid;
+    });
+    console.log('file', finalP);
+    setPdata(finalP);
   };
-  const handleSkillClose = () => {
-    getSkills();
-    setOpenSkill(false);
-  };
-
-  const ShowBadge = () => {
-    const styles = useStyle();
-    return (
-      <>
-        {skills.length <= 4 ? (
-          <Typography className={styles.begeinner}>Beginner</Typography>
-        ) : skills.length <= 7 ? (
-          <Typography className={styles.mediocar}>Mediocar</Typography>
-        ) : (
-          <Typography className={styles.experts}>Expert</Typography>
-        )}
-      </>
-    );
-  };
-  const getSkills = () => {
-    const skl = localStorage.getItem('skills');
-    if (skl) {
-      const arr = skl.split(',');
-      const newArr = [];
-      arr.forEach((ele) => {
-        const obj = {};
-        obj.value = ele;
-        obj.name = ele;
-        newArr.push(obj);
-      });
-      setSkill(newArr);
-    } else {
-      setSkill('');
-    }
-  };
-
   return (
     <Grid container className={classes.root} spacing={2}>
       <Grid item xs={12} className={classes.gridMain}>
@@ -108,27 +66,69 @@ export default function Test() {
           <Grid container className={classes.items}>
             <Grid item xs={12} className={classes.gridItem} my={3}>
               <Typography>
-                <strong>Skills</strong>
+                <strong></strong>
               </Typography>
-              <ShowBadge />
-              <EditIcon
-                color="error"
-                className={classes.editIcon}
-                onClick={handleSkillOpen}
-              />
+              {/* <ShowBadge /> */}
+              <EditIcon color="error" className={classes.editIcon} />
             </Grid>
-            <Grid item xs={12} className={classes.gridItem}>
-              {skills.length > 0
-                ? skills.map((skill, index) => (
-                    <span key={index} className="pr-2 pb-2 mb-2">
-                      <Chip label={skill.name} color="primary" size="small" />
-                    </span>
-                  ))
-                : 'Skills Not Added Yet'}
-            </Grid>
+            {pData.length > 0 &&
+              pData.map((elem, index) => (
+                <Grid container key={index}>
+                  <Grid item xs={12} className="mt-3 mb-5">
+                    <img
+                      src={elem.imgUrl}
+                      alt="profile-image"
+                      style={{
+                        width: '100px',
+                        height: '100px',
+                        borderRadius: '50%',
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} className={classes.gridItem} my={3}>
+                    <Typography>
+                      <strong>Name</strong>
+                    </Typography>
+                    <Typography>
+                      <strong>{elem.name}</strong>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} className={classes.gridItem} my={3}>
+                    <Typography>
+                      <strong>Age</strong>
+                    </Typography>
+                    <Typography>
+                      <strong>{elem.age}</strong>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} className={classes.gridItem} my={3}>
+                    <Typography>
+                      <strong>Address</strong>
+                    </Typography>
+                    <Typography>
+                      <strong>{elem.address}</strong>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} className={classes.gridItem} my={3}>
+                    <Typography>
+                      <strong>Company</strong>
+                    </Typography>
+                    <Typography>
+                      <strong>{elem.company}</strong>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} className={classes.gridItem} my={3}>
+                    <Typography>
+                      <strong>Designation</strong>
+                    </Typography>
+                    <Typography>
+                      <strong>{elem.designation}</strong>
+                    </Typography>
+                  </Grid>
+                </Grid>
+              ))}
           </Grid>
         </Paper>
-        {openSkill && <Skills show={openSkill} onClose={handleSkillClose} />}
       </Grid>
     </Grid>
   );

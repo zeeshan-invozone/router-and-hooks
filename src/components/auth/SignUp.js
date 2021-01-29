@@ -5,9 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Link } from 'react-router-dom';
-import React, { useCallback } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import React, { useCallback, useContext } from 'react';
 import { db, firebaseConfig } from '../Firebase/firebase';
+import { AuthContext } from './Authentication';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,7 +47,10 @@ export default function SignUp({ history }) {
     },
     [history]
   );
-
+  const { currentUser } = useContext(AuthContext);
+  if (currentUser) {
+    return <Redirect to="/react-table" />;
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-export default function ResetPassword() {
+export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [confirm, setConfirm] = useState('');
   const classes = useStyles();

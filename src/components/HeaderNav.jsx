@@ -7,6 +7,7 @@ import {
   Grid,
   Button,
 } from '@material-ui/core';
+import { firebaseConfig } from './Firebase/firebase';
 import { Link } from 'react-router-dom';
 
 const style = makeStyles(() => ({
@@ -52,7 +53,15 @@ export default function HeaderNav() {
                   Assignment
                 </Link>
               </Typography>
-              <Button color="inherit" onClick={() => fire.auth().signOut()}>
+              <Typography>
+                <Link className={classes.profile} to="/view-profile">
+                  ViewProfile
+                </Link>
+              </Typography>
+              <Button
+                color="inherit"
+                onClick={() => firebaseConfig.auth().signOut()}
+              >
                 Logout
               </Button>
             </Grid>
