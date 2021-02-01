@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import HeaderNav from '../components/HeaderNav';
 import EditProfile from '../components/EditProfile';
@@ -13,6 +13,7 @@ import ForgotPassword from './auth/ForgotPassword';
 import AdditionalInfo from './auth/AdditionalInfo';
 import PrivateRoute from './auth/PrivateRoute';
 import Profile from './Profile';
+import Sorting from './Sorting/Sorting';
 export default function Routes() {
   const [user, setUser] = useState('');
   useEffect(() => {
@@ -37,6 +38,7 @@ export default function Routes() {
           <PrivateRoute exact path="/styled-component" component={HelloWorld} />
           <PrivateRoute exact path="/assignment" component={TextAssignment} />
           <PrivateRoute exact path="/view-profile" component={Profile} />
+          <PrivateRoute exact path="/sorting" component={Sorting} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/step-2" component={AdditionalInfo} />

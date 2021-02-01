@@ -58,6 +58,11 @@ export default function HeaderNav() {
                   ViewProfile
                 </Link>
               </Typography>
+              <Typography>
+                <Link className={classes.profile} to="/sorting">
+                  Sorting
+                </Link>
+              </Typography>
               <Button
                 color="inherit"
                 onClick={() => firebaseConfig.auth().signOut()}
