@@ -24,30 +24,11 @@ exports.addMessage = functions.https.onCall((data, context) => {
   return { text, email };
 });
 
-// call the functions from your app
-// var addMessage = firebase.functions().httpsCallable('addMessage');
-// addMessage({ text: messageText })
-//   .then((result) => {
-//     // Read result of the Cloud Function.
-//     var sanitizedMessage = result.data.text;
-//   });
-// emultators functions , runtime configration set either deployed or localhost , getemail from reset, email should redirect to localhost 3000 with ood code, get ood code from url params , form for password change
-// const handleResetPassword = (auth, actionCode, continueUrl, lang) => {
-//   auth
-//     .verifyPasswordResetCode(actionCode)
-//     .then((email) => {
-//       var accountEmail = email;
-//       var newPassword = '...';
-//       auth
-//         .confirmPasswordReset(actionCode, newPassword)
-//         .then((resp) => {
-//           console.log(resp);
-//         })
-//         .catch((error) => {
-//           console.log(error);
-//         });
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
+exports.getFullName = functions.https.onCall((data) => {
+  const fname = data.fName;
+  const lname = data.lName;
+  const fullName = fname + lname;
+  return {
+    fullName,
+  };
+});

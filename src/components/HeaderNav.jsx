@@ -42,7 +42,11 @@ const HeaderNav = () => {
                 </Link>
               </Typography>
             </Grid>
-            <Grid item xs={6} className="d-flex justify-content-around">
+            <Grid
+              item
+              xs={6}
+              className="d-flex justify-content-around align-items-center"
+            >
               <Typography>
                 <Link className={classes.profile} to="/styled-component">
                   Styled
@@ -61,6 +65,11 @@ const HeaderNav = () => {
               <Typography>
                 <Link className={classes.profile} to="/sorting">
                   Sorting
+                </Link>
+              </Typography>
+              <Typography>
+                <Link className={classes.profile} to="/cloud-func">
+                  Cloud Functions
                 </Link>
               </Typography>
               <Button color="inherit" onClick={() => firebase.auth().signOut()}>

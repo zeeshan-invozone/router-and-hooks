@@ -31,10 +31,6 @@ const ForgotPassword = () => {
   const [confirm, setConfirm] = useState('');
   const classes = useStyles();
   const handleSubmit = async (e) => {
-    // const addMessage = firebase.functions().httpsCallable('addMessage');
-    // addMessage({ text: 'Hi how are you', email }).then((res) => {
-    //   console.log('res', res);
-    // });
     e.preventDefault();
     const res = await firebase.auth().sendPasswordResetEmail(email);
     console.log('res', res);
