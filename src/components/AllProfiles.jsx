@@ -58,7 +58,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function AllProfiles() {
+const AllProfiles = () => {
   const classes = useStyles();
   const history = useHistory();
   return (
@@ -99,4 +99,5 @@ export default function AllProfiles() {
       </Table>
     </TableContainer>
   );
-}
+};
+export default AllProfiles;

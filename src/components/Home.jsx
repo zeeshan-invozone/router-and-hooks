@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '16px',
   },
 }));
-export default function Home() {
+const Home = () => {
   const [pData, setPData] = useState(profileData);
 
   const classes = useStyles();
@@ -24,4 +24,6 @@ export default function Home() {
         ))}
     </div>
   );
-}
+};
+
+export default Home;

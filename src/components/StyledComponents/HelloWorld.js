@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-export default function HelloWorld() {
+const HelloWorld = () => {
   const Title = styled.h1`
     font-size: 1.5em;
     text-align: center;
@@ -53,4 +53,6 @@ export default function HelloWorld() {
       </Wrapper>
     </div>
   );
-}
+};
+
+export default HelloWorld;

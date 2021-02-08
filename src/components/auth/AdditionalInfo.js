@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { firebaseConfig, db } from '../Firebase/firebase';
+import firebase from '../Firebase/firebase';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 import CircularProgress from '@material-ui/core/CircularProgress';
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-export default function AdditionalInfo() {
+const AdditionalInfo = () => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [designation, setDesignation] = useState('');
@@ -41,34 +41,27 @@ export default function AdditionalInfo() {
   const classes = useStyles();
   const history = useHistory();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { uid } = firebaseConfig.auth().currentUser;
+    const { uid } = firebase.auth().currentUser;
     if (uid !== null) {
-      console.log(name, age, address, designation, company);
-      db.collection('users')
-        .add({
-          uid,
-          name,
-          age,
-          address,
-          designation,
-          company,
-          imgUrl,
-        })
-        .then((res) => {
-          console.log('res', res);
-          history.push('/');
-        })
-        .catch((error) => {
-          console.log('error while adding additional info', error);
-        });
+      const fire = firebase.firestore();
+      const res = await fire.collection('users').add({
+        uid,
+        name,
+        age,
+        address,
+        designation,
+        company,
+        imgUrl,
+      });
+      console.log('res', res);
     }
   };
   const imageOnChange = async (e) => {
     setLoader(true);
     const file = e.target.files[0];
-    const fireRef = firebaseConfig.storage().ref();
+    const fireRef = firebase.storage().ref();
     const fileRef = fireRef.child(file.name);
     await fileRef.put(file);
     const finalUrl = await fileRef.getDownloadURL();
@@ -183,4 +176,6 @@ export default function AdditionalInfo() {
       </Container>
     </div>
   );
-}
+};
+
+export default AdditionalInfo;

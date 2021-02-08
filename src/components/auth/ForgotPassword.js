@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { db, firebaseConfig } from '../Firebase/firebase';
+import firebase from '../Firebase/firebase';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,13 +26,17 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-export default function ForgotPassword() {
+const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [confirm, setConfirm] = useState('');
   const classes = useStyles();
   const handleSubmit = (e) => {
+    // const addMessage = firebase.functions().httpsCallable('addMessage');
+    // addMessage({ text: 'Hi how are you', email }).then((res) => {
+    //   console.log('res', res);
+    // });
     e.preventDefault();
-    firebaseConfig
+    firebase
       .auth()
       .sendPasswordResetEmail(email)
       .then((res) => {
@@ -40,9 +44,8 @@ export default function ForgotPassword() {
         alert('Email send successfully kindly check you email');
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
       });
-    console.log('email', email);
   };
   return (
     <Container component="main" maxWidth="xs">
@@ -77,4 +80,6 @@ export default function ForgotPassword() {
       </div>
     </Container>
   );
-}
+};
+
+export default ForgotPassword;

@@ -4,11 +4,12 @@ import { useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import TableContainer from './TableContainer';
 import AddProfileForm from '../AddProfileForm';
-import { db, firebaseConfig } from '../Firebase/firebase';
+import firebase from '../Firebase/firebase';
 
-export default function ReactTable() {
+const ReactTable = () => {
   const [open, setOpen] = useState(false);
   const [users, setUsers] = useState([]);
+  const fire = firebase.firestore();
   useEffect(() => {
     getAllUsers();
   }, []);
@@ -44,7 +45,7 @@ export default function ReactTable() {
     //   }
     //   setUsers(userList);
     // });
-    const user = await db.collection('users').get();
+    const user = await fire.collection('users').get();
     const allUsers = [];
     user.forEach((doc) => {
       let userData = doc.data();
@@ -60,7 +61,9 @@ export default function ReactTable() {
   const handleDelete = (e, cell) => {
     e.preventDefault();
     const id = cell.row.original.id;
-    db.collection('users')
+
+    fire
+      .collection('users')
       .doc(id)
       .delete()
       .then(() => {
@@ -148,4 +151,6 @@ export default function ReactTable() {
       {open && <AddProfileForm show={open} onClose={handleClose} />}
     </div>
   );
-}
+};
+
+export default ReactTable;

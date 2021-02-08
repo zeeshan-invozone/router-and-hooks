@@ -16,7 +16,7 @@ const Style = styled.div`
     padding: 0.5rem;
   }
 `;
-export default function TableContainer({ columns, data }) {
+const TableContainer = ({ columns, data }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -62,4 +62,5 @@ export default function TableContainer({ columns, data }) {
       </div>
     </Style>
   );
-}
+};
+export default TableContainer;

@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import profilesData from '../utils/profilesInfo';
 import { useForm } from 'react-hook-form';
-import { db, firebaseConfig } from './Firebase/firebase';
+import firebase from './Firebase/firebase';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddProfileForm({ onClose, show }) {
+const AddProfileForm = ({ onClose, show }) => {
   const { register, handleSubmit, errors } = useForm();
   const classes = useStyles();
   const formRef = useRef();
@@ -36,7 +36,7 @@ export default function AddProfileForm({ onClose, show }) {
   const [designation, setDesignation] = useState('');
   const [address, setAddress] = useState('');
   const [company, setCompany] = useState('');
-
+  const fire = firebase.firestore();
   const onSubmits = () => {
     const newProfile = {
       name,
@@ -47,7 +47,8 @@ export default function AddProfileForm({ onClose, show }) {
     };
     // const realUser = firebaseConfig.database().ref('User');
     // realUser.push(newProfile);
-    db.collection('users')
+    fire
+      .collection('users')
       .add({
         name,
         age,
@@ -144,4 +145,5 @@ export default function AddProfileForm({ onClose, show }) {
       </Dialog>
     </>
   );
-}
+};
+export default AddProfileForm;

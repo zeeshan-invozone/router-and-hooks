@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { withRouter, Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
-import { db, firebaseConfig } from '../Firebase/firebase';
+import firebase from '../Firebase/firebase';
 import { AuthContext } from './Authentication';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,14 +32,14 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-export default function SignIn({ history }) {
+const SignIn = ({ history }) => {
   const classes = useStyles();
   const handleLogin = useCallback(
     async (event) => {
       event.preventDefault();
       const { email, password } = event.target.elements;
       try {
-        await firebaseConfig
+        await firebase
           .auth()
           .signInWithEmailAndPassword(email.value, password.value);
         history.push('/');
@@ -112,4 +112,6 @@ export default function SignIn({ history }) {
       </div>
     </Container>
   );
-}
+};
+
+export default SignIn;

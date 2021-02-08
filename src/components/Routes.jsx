@@ -6,7 +6,7 @@ import HelloWorld from './StyledComponents/HelloWorld';
 import ReactTable from './ReactTable7/ReactTable';
 import TextAssignment from './Assignment/TextAssignment';
 import { AuthProvider } from './auth/Authentication';
-import { firebaseConfig } from './Firebase/firebase';
+import firebase from './Firebase/firebase';
 import Login from './auth/SignIn';
 import SignUp from './auth/SignUp';
 import ForgotPassword from './auth/ForgotPassword';
@@ -14,13 +14,14 @@ import AdditionalInfo from './auth/AdditionalInfo';
 import PrivateRoute from './auth/PrivateRoute';
 import Profile from './Profile';
 import Sorting from './Sorting/Sorting';
-export default function Routes() {
+import ResetPassword from './auth/ResetPassword';
+const Routes = () => {
   const [user, setUser] = useState('');
   useEffect(() => {
     authListener();
   }, []);
   const authListener = () => {
-    firebaseConfig.auth().onAuthStateChanged((users) => {
+    firebase.auth().onAuthStateChanged((users) => {
       if (users) {
         setUser(users);
       } else {
@@ -43,9 +44,12 @@ export default function Routes() {
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/step-2" component={AdditionalInfo} />
           <Route exact path="/forgot-password" component={ForgotPassword} />
+          <Route exact path="/reset-password" component={ResetPassword} />
           {/* <Route exact path="/register" component={Signup} /> */}
         </Switch>
       </Router>
     </AuthProvider>
   );
-}
+};
+
+export default Routes;

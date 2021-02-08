@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { TextField, makeStyles, Button } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router-dom';
-import { firebaseConfig, db } from './Firebase/firebase';
+import firebase from './Firebase/firebase';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditProfile() {
+const EditProfile = () => {
   const classes = useStyles();
   const location = useLocation();
   const history = useHistory();
@@ -42,29 +42,23 @@ export default function EditProfile() {
   const [designations, setDesignation] = useState(designation);
   const [addresss, setAddress] = useState(address);
   const [companys, setCompany] = useState(company);
-
-  const updateProfile = () => {
+  const fire = firebase.firestore();
+  const updateProfile = async () => {
     // fileData[id].name = nameRef.current.value;
     // fileData[id].age = ageRef.current.value;
     // fileData[id].address = addressRef.current.value;
     // fileData[id].designation = designationRef.current.value;
     // fileData[id].company = companyRef.current.value;
     // const userRef = firebaseConfig.database().ref('User').child(id);
-    const userRef = db.collection('users').doc(id);
-    userRef
-      .set({
-        name: names,
-        age: ages,
-        designation: designations,
-        company: companys,
-        address: addresss,
-      })
-      .then((docRef) => {
-        console.log(docRef);
-      })
-      .catch((error) => {
-        console.error('Error adding document: ', error);
-      });
+    const userRef = fire.collection('users').doc(id);
+    const res = await userRef.set({
+      name: names,
+      age: ages,
+      designation: designations,
+      company: companys,
+      address: addresss,
+    });
+    console.log('res', res);
     history.push('/');
   };
   return (
@@ -118,4 +112,5 @@ export default function EditProfile() {
       </form>
     </div>
   );
-}
+};
+export default EditProfile;

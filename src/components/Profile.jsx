@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import { db, firebaseConfig } from './Firebase/firebase';
+import firebase from './Firebase/firebase';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -39,15 +39,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Profile() {
+const Profile = () => {
   const [pData, setPdata] = useState('');
+  const fire = firebase.firestore();
   const classes = useStyles();
   useEffect(() => {
     getUserInfo();
   }, []);
   const getUserInfo = async () => {
-    const { uid } = firebaseConfig.auth().currentUser;
-    const user = await db.collection('users').get();
+    const { uid } = firebase.auth().currentUser;
+    const user = await fire.collection('users').get();
     const profiles = [];
     user.forEach((doc) => {
       const profile = doc.data();
@@ -132,4 +133,6 @@ export default function Profile() {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default Profile;

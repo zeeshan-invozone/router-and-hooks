@@ -14,7 +14,7 @@ const skillData = [
   { id: 9, name: 'scss' },
 ];
 
-export default function Skills({ show, onClose }) {
+const Skills = ({ show, onClose }) => {
   const [isChecked, setIsChecked] = useState([]);
 
   const handleSingleCheck = (e) => {
@@ -64,4 +64,6 @@ export default function Skills({ show, onClose }) {
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default Skills;

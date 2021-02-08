@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
-export default function TextAssignment() {
+const TextAssignment = () => {
   const [input, setInput] = useState('');
   const [result, setResult] = useState('');
   const [isClick, setClicked] = useState(false);
-  // const data = 'sjkdslsdjdlllooo ittsssiiiiii otspso ministernopon';
 
   const handleSubmit = () => {
     const temp = [];
@@ -32,7 +31,6 @@ export default function TextAssignment() {
         charMap[char]++;
       }
     }
-    console.log('charMap', charMap);
 
     for (const char in charMap) {
       if (charMap[char] > max) {
@@ -82,4 +80,6 @@ export default function TextAssignment() {
       )}
     </div>
   );
-}
+};
+
+export default TextAssignment;

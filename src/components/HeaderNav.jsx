@@ -7,7 +7,7 @@ import {
   Grid,
   Button,
 } from '@material-ui/core';
-import { firebaseConfig } from './Firebase/firebase';
+import firebase from './Firebase/firebase';
 import { Link } from 'react-router-dom';
 
 const style = makeStyles(() => ({
@@ -28,7 +28,7 @@ const style = makeStyles(() => ({
     },
   },
 }));
-export default function HeaderNav() {
+const HeaderNav = () => {
   const classes = style();
   return (
     <div>
@@ -63,10 +63,7 @@ export default function HeaderNav() {
                   Sorting
                 </Link>
               </Typography>
-              <Button
-                color="inherit"
-                onClick={() => firebaseConfig.auth().signOut()}
-              >
+              <Button color="inherit" onClick={() => firebase.auth().signOut()}>
                 Logout
               </Button>
             </Grid>
@@ -75,4 +72,5 @@ export default function HeaderNav() {
       </AppBar>
     </div>
   );
-}
+};
+export default HeaderNav;

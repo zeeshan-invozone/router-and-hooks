@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ProfileCard({ p }) {
+const ProfileCard = ({ p }) => {
   const classes = useStyles();
   const history = useHistory();
   const handleSeeMore = () => {
@@ -79,4 +79,5 @@ export default function ProfileCard({ p }) {
       </Card>
     </>
   );
-}
+};
+export default ProfileCard;
