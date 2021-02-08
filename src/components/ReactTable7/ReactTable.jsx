@@ -58,20 +58,11 @@ const ReactTable = () => {
 
   const data = useMemo(() => users, [users]);
   let history = useHistory();
-  const handleDelete = (e, cell) => {
+  const handleDelete = async (e, cell) => {
     e.preventDefault();
     const id = cell.row.original.id;
 
-    fire
-      .collection('users')
-      .doc(id)
-      .delete()
-      .then(() => {
-        console.log('Document successfully deleted!');
-      })
-      .catch((error) => {
-        console.error('Error removing document: ', error);
-      });
+    const res = await fire.collection('users').doc(id).delete();
   };
   const columns = React.useMemo(
     () => [

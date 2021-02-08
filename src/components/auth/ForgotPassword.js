@@ -30,22 +30,14 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [confirm, setConfirm] = useState('');
   const classes = useStyles();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     // const addMessage = firebase.functions().httpsCallable('addMessage');
     // addMessage({ text: 'Hi how are you', email }).then((res) => {
     //   console.log('res', res);
     // });
     e.preventDefault();
-    firebase
-      .auth()
-      .sendPasswordResetEmail(email)
-      .then((res) => {
-        console.log('res', res);
-        alert('Email send successfully kindly check you email');
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    const res = await firebase.auth().sendPasswordResetEmail(email);
+    console.log('res', res);
   };
   return (
     <Container component="main" maxWidth="xs">

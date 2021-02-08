@@ -7,24 +7,20 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
   response.send('Hello from Firebase!');
 });
 
-exports.resetPassword = functions.https.onRequest((req, res) => {
+exports.resetPassword = functions.https.onRequest(async (req, res) => {
   // const dynamicText = req.query.text;
   // console.log('dynamicText', dynamicText);
 
-  admin
+  const response = await admin
     .firestore()
     .collection('test')
-    .add({ text: 'My name is khan' })
-    .then((snapshot) => {
-      console.log('text', snapshot);
-      res.send(snapshot);
-    });
+    .add({ text: 'My name is khan' });
+  res.send(response);
 });
 
 exports.addMessage = functions.https.onCall((data, context) => {
   const text = data.text;
   const email = data.email;
-  console.log(text, email);
   return { text, email };
 });
 

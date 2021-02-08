@@ -37,7 +37,7 @@ const AddProfileForm = ({ onClose, show }) => {
   const [address, setAddress] = useState('');
   const [company, setCompany] = useState('');
   const fire = firebase.firestore();
-  const onSubmits = () => {
+  const onSubmits = async () => {
     const newProfile = {
       name,
       age,
@@ -47,22 +47,14 @@ const AddProfileForm = ({ onClose, show }) => {
     };
     // const realUser = firebaseConfig.database().ref('User');
     // realUser.push(newProfile);
-    fire
-      .collection('users')
-      .add({
-        name,
-        age,
-        designation,
-        address,
-        company,
-      })
-      .then((res) => {
-        alert('user created successfully');
-        console.log('res', res);
-      })
-      .catch((error) => {
-        console.log('something went wrong', error);
-      });
+    const res = await fire.collection('users').add({
+      name,
+      age,
+      designation,
+      address,
+      company,
+    });
+    console.log('res', res);
     onClose();
   };
   const Error = ({ name }) => {
