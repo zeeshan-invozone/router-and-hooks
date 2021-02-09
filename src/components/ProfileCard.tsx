@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import {
   makeStyles,
   Card,
@@ -41,7 +41,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileCard = ({ p }) => {
+type ProfileProp = {
+  profile: any;
+};
+
+const ProfileCard: FunctionComponent<ProfileProp> = ({ profile }) => {
   const classes = useStyles();
   const history = useHistory();
   const handleSeeMore = () => {
@@ -63,11 +67,11 @@ const ProfileCard = ({ p }) => {
           </CardMedia>
           <CardContent className={classes.avatarPosition}>
             <Typography gutterBottom variant="h5" component="h2">
-              {p.name}
+              {profile.name}
             </Typography>
-            <Typography component="p">{p.address}</Typography>
+            <Typography component="p">{profile.address}</Typography>
             <Typography variant="body2" component="p" className="text-center">
-              {p.designation}
+              {profile.designation}
             </Typography>
           </CardContent>
         </CardActionArea>

@@ -1,15 +1,17 @@
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import React, { useState } from 'react';
+import {
+  Grid,
+  makeStyles,
+  CssBaseline,
+  Typography,
+  TextField,
+  Button,
+  Container,
+  CircularProgress,
+} from '@material-ui/core';
+import React, { useState, FormEvent, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import firebase from '../Firebase/firebase';
-import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { CREATE_USER_PROFILE } from '../Firebase/firebase_api';
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -29,38 +31,40 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-const AdditionalInfo = () => {
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-  const [designation, setDesignation] = useState('');
-  const [address, setAddress] = useState('');
-  const [company, setCompany] = useState('');
-  const [imgUrl, setImageUrl] = useState('');
-  const [isPick, setPick] = useState(false);
-  const [loader, setLoader] = useState(false);
+const AdditionalInfo: React.FC = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [isPick, setPick] = useState<boolean>(false);
+  const [loader, setLoader] = useState<boolean>(false);
   const classes = useStyles();
   const history = useHistory();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const name: string = formRef.current['name'].value;
+  const designation: string = formRef.current['designation'].value;
+  const address: string = formRef.current['address'].value;
+  const age: string = formRef.current['age'].value;
+  const company: string = formRef.current['company'].value;
+
+  const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
     const { uid } = firebase.auth().currentUser;
     if (uid !== null) {
-      const fire = firebase.firestore();
-      const res = await fire.collection('users').add({
+      const res = await CREATE_USER_PROFILE({
         uid,
         name,
         age,
         address,
-        designation,
         company,
-        imgUrl,
+        designation,
+        imageUrl,
       });
       console.log('res', res);
+      history.push('/');
     }
   };
-  const imageOnChange = async (e) => {
+  const imageOnChange = async (evt: React.ChangeEvent<HTMLInputElement>) => {
     setLoader(true);
-    const file = e.target.files[0];
+    const file = evt.target.files[0];
     const fireRef = firebase.storage().ref();
     const fileRef = fireRef.child(file.name);
     await fileRef.put(file);
@@ -81,7 +85,7 @@ const AdditionalInfo = () => {
           <div className="image-upload">
             <label htmlFor="file-input">
               {isPick ? (
-                <img src={imgUrl} style={{ width: '100px', height: '100px' }} />
+                <img src={imageUrl} style={{ width: '100px', height: '100px' }} />
               ) : (
                 <img
                   src="https://placehold.it/100/000000/ffffff?text=UPLOAD"
@@ -97,11 +101,12 @@ const AdditionalInfo = () => {
               onChange={imageOnChange}
             />
           </div>
-          {/* <span>
-            <PersonAddRoundedIcon />
-            <input type='file' style={{ display: 'none' }} />
-          </span> */}
-          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={handleSubmit}
+            ref={formRef}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -111,7 +116,6 @@ const AdditionalInfo = () => {
                   fullWidth
                   label="Name"
                   autoFocus
-                  onChange={(e) => setName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -122,7 +126,6 @@ const AdditionalInfo = () => {
                   label="Age"
                   name="age"
                   type="number"
-                  onChange={(e) => setAge(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -134,7 +137,6 @@ const AdditionalInfo = () => {
                   label="Address"
                   type="text"
                   autoComplete="off"
-                  onChange={(e) => setAddress(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -145,7 +147,6 @@ const AdditionalInfo = () => {
                   name="company"
                   label="Company"
                   type="text"
-                  onChange={(e) => setCompany(e.target.value)}
                   autoComplete="off"
                 />
               </Grid>
@@ -158,7 +159,6 @@ const AdditionalInfo = () => {
                   label="Designation"
                   type="text"
                   autoComplete="off"
-                  onChange={(e) => setDesignation(e.target.value)}
                 />
               </Grid>
             </Grid>

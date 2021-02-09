@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import firebase from '../Firebase/firebase';
+import React, { useState, FormEvent } from 'react';
+import {
+  makeStyles,
+  CssBaseline,
+  Typography,
+  TextField,
+  Button,
+  Container,
+} from '@material-ui/core';
+import { FORGOT_PASSWORD } from '../Firebase/firebase_api';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,13 +28,12 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
-  const [confirm, setConfirm] = useState('');
+const ForgotPassword: React.FC = () => {
+  const [email, setEmail] = useState<string>('');
   const classes = useStyles();
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await firebase.auth().sendPasswordResetEmail(email);
+  const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    const res = await FORGOT_PASSWORD({ email });
     console.log('res', res);
   };
   return (

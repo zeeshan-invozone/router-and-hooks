@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
-const TextAssignment = () => {
-  const [input, setInput] = useState('');
-  const [result, setResult] = useState('');
-  const [isClick, setClicked] = useState(false);
+const TextAssignment: React.FC = () => {
+  const [input, setInput] = useState<string>('');
+  const [result, setResult] = useState<string>('');
+  const [isClick, setClicked] = useState<boolean>(false);
 
   const handleSubmit = () => {
     const temp = [];

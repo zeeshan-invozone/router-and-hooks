@@ -23,10 +23,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-const CloudFunctions = () => {
-  const [fullName, setFullName] = useState(null);
+const CloudFunctions: React.FC = () => {
+  const [fullName, setFullName] = useState<string>(null);
   const classes = useStyles();
-  const formRef = useRef();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();

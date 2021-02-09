@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import ProfileCard from './ProfileCard';
 import profileData from '../utils/profilesInfo';
 import { makeStyles } from '@material-ui/core';
@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
     padding: '16px',
   },
 }));
-const Home = () => {
-  const [pData, setPData] = useState(profileData);
+const Home: FC<{ data: any }> = ({ data = profileData }): ReactElement => {
+  const [pData, setPData] = useState(data);
 
   const classes = useStyles();
   return (
@@ -19,7 +19,7 @@ const Home = () => {
       {pData.length > 0 &&
         pData.map((p, index) => (
           <div key={index}>
-            <ProfileCard p={p} />
+            <ProfileCard profile={p} />
           </div>
         ))}
     </div>

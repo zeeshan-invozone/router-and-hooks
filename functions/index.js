@@ -32,3 +32,7 @@ exports.getFullName = functions.https.onCall((data) => {
     fullName,
   };
 });
+
+// exports.storeName = functions.firestore
+//   .document('users')
+//   .onWrite((change, context) => { });

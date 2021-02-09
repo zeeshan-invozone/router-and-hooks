@@ -39,13 +39,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Profile = () => {
-  const [pData, setPdata] = useState('');
+const Profile: React.FC = () => {
+  const [pData, setPdata] = useState([]);
   const fire = firebase.firestore();
   const classes = useStyles();
+
   useEffect(() => {
     getUserInfo();
   }, []);
+
   const getUserInfo = async () => {
     const { uid } = firebase.auth().currentUser;
     const user = await fire.collection('users').get();
@@ -65,7 +67,7 @@ const Profile = () => {
       <Grid item xs={12} className={classes.gridMain}>
         <Paper className={classes.paper} elevation={5}>
           <Grid container className={classes.items}>
-            <Grid item xs={12} className={classes.gridItem} my={3}>
+            <Grid item xs={12} className={classes.gridItem}>
               <Typography>
                 <strong></strong>
               </Typography>
@@ -86,7 +88,7 @@ const Profile = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} className={classes.gridItem} my={3}>
+                  <Grid item xs={12} className={classes.gridItem}>
                     <Typography>
                       <strong>Name</strong>
                     </Typography>
@@ -94,7 +96,7 @@ const Profile = () => {
                       <strong>{elem.name}</strong>
                     </Typography>
                   </Grid>
-                  <Grid item xs={12} className={classes.gridItem} my={3}>
+                  <Grid item xs={12} className={classes.gridItem}>
                     <Typography>
                       <strong>Age</strong>
                     </Typography>
@@ -102,7 +104,7 @@ const Profile = () => {
                       <strong>{elem.age}</strong>
                     </Typography>
                   </Grid>
-                  <Grid item xs={12} className={classes.gridItem} my={3}>
+                  <Grid item xs={12} className={classes.gridItem}>
                     <Typography>
                       <strong>Address</strong>
                     </Typography>
@@ -110,7 +112,7 @@ const Profile = () => {
                       <strong>{elem.address}</strong>
                     </Typography>
                   </Grid>
-                  <Grid item xs={12} className={classes.gridItem} my={3}>
+                  <Grid item xs={12} className={classes.gridItem}>
                     <Typography>
                       <strong>Company</strong>
                     </Typography>
@@ -118,7 +120,7 @@ const Profile = () => {
                       <strong>{elem.company}</strong>
                     </Typography>
                   </Grid>
-                  <Grid item xs={12} className={classes.gridItem} my={3}>
+                  <Grid item xs={12} className={classes.gridItem}>
                     <Typography>
                       <strong>Designation</strong>
                     </Typography>

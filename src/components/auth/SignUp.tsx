@@ -1,14 +1,16 @@
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import { Link, Redirect } from 'react-router-dom';
-import React, { useCallback, useContext } from 'react';
-import firebase from '../Firebase/firebase';
+import React, { useCallback, useContext, useRef, FormEvent } from 'react';
 import { AuthContext } from './Authentication';
+import { SIGN_UP } from '../Firebase/firebase_api';
+import {
+  Grid,
+  makeStyles,
+  CssBaseline,
+  Typography,
+  TextField,
+  Button,
+  Container,
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,19 +33,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 const SignUp = ({ history }) => {
   const classes = useStyles();
+  const formRef = useRef<HTMLFormElement>(null);
   const handleSignUp = useCallback(
-    async (event) => {
-      event.preventDefault();
-      const { email, password } = event.target.elements;
-      try {
-        const res = await firebase
-          .auth()
-          .createUserWithEmailAndPassword(email.value, password.value);
-        console.log('res', res.user.uid);
-        history.push('/step-2');
-      } catch (error) {
-        alert(error);
-      }
+    async (evt: FormEvent<HTMLFormElement>) => {
+      evt.preventDefault();
+      const email = formRef.current['email'].value;
+      const password = formRef.current['password'].value;
+      const res = await SIGN_UP({ email, password });
+      history.push('/step-2');
     },
     [history]
   );
@@ -63,6 +60,7 @@ const SignUp = ({ history }) => {
           className={classes.form}
           noValidate
           autoComplete="off"
+          ref={formRef}
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>

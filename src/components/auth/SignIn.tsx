@@ -1,17 +1,20 @@
-import React, { useCallback, useContext } from 'react';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import React, { FormEvent, useCallback, useContext, useRef } from 'react';
 import { withRouter, Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import firebase from '../Firebase/firebase';
 import { AuthContext } from './Authentication';
+import { SIGN_IN } from '../Firebase/firebase_api';
+import {
+  Grid,
+  makeStyles,
+  CssBaseline,
+  Typography,
+  TextField,
+  Button,
+  Container,
+  Checkbox,
+  FormControlLabel,
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,21 +37,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 const SignIn = ({ history }) => {
   const classes = useStyles();
+  const formRef = useRef<HTMLFormElement>(null);
   const handleLogin = useCallback(
-    async (event) => {
-      event.preventDefault();
-      const { email, password } = event.target.elements;
-      try {
-        await firebase
-          .auth()
-          .signInWithEmailAndPassword(email.value, password.value);
+    async (evt: FormEvent<HTMLFormElement>) => {
+      evt.preventDefault();
+      const email = formRef.current['email'].value;
+      const password = formRef.current['password'].value;
+
+      const res = await SIGN_IN({ email, password });
+      const cu = await firebase.auth().currentUser;
+      if (cu) {
+        alert('Login Successfully');
         history.push('/');
-      } catch (error) {
-        alert(error);
+      } else {
+        alert(res);
       }
     },
     [history]
   );
+
   const { currentUser } = useContext(AuthContext);
   if (currentUser) {
     return <Redirect to="/react-table" />;
@@ -60,7 +67,12 @@ const SignIn = ({ history }) => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form onSubmit={handleLogin} className={classes.form} noValidate>
+        <form
+          onSubmit={handleLogin}
+          className={classes.form}
+          noValidate
+          ref={formRef}
+        >
           <TextField
             variant="outlined"
             margin="normal"

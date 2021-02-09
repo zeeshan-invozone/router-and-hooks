@@ -30,12 +30,13 @@ const useStyles = makeStyles((theme) => ({
 const AddProfileForm = ({ onClose, show }) => {
   const { register, handleSubmit, errors } = useForm();
   const classes = useStyles();
-  const formRef = useRef();
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-  const [designation, setDesignation] = useState('');
-  const [address, setAddress] = useState('');
-  const [company, setCompany] = useState('');
+  const formRef = useRef<HTMLFormElement>();
+  const name: string = formRef.current['name'].value;
+  const designation: string = formRef.current['designation'].value;
+  const address: string = formRef.current['address'].value;
+  const age: string = formRef.current['age'].value;
+  const company: string = formRef.current['company'].value;
+
   const fire = firebase.firestore();
   const onSubmits = async () => {
     const newProfile = {
@@ -84,7 +85,6 @@ const AddProfileForm = ({ onClose, show }) => {
               name="nam"
               label="Name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
               inputRef={register({ required: true })}
               helperText={errors.nam ? <Error name="name is required" /> : ''}
             />
@@ -93,7 +93,6 @@ const AddProfileForm = ({ onClose, show }) => {
               name="ag"
               label="Age"
               value={age}
-              onChange={(e) => setAge(e.target.value)}
               helperText={errors.ag ? <Error name="age is required" /> : ''}
             />
             <TextField
@@ -101,7 +100,6 @@ const AddProfileForm = ({ onClose, show }) => {
               name="desig"
               label="Designation"
               value={designation}
-              onChange={(e) => setDesignation(e.target.value)}
               helperText={
                 errors.desig ? <Error name="designation is required" /> : ''
               }
@@ -111,7 +109,6 @@ const AddProfileForm = ({ onClose, show }) => {
               name="com"
               label="Company"
               value={company}
-              onChange={(e) => setCompany(e.target.value)}
               helperText={errors.com ? <Error name="company is required" /> : ''}
             />
             <TextField
@@ -119,7 +116,6 @@ const AddProfileForm = ({ onClose, show }) => {
               name="add"
               label="Address"
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
               helperText={errors.add ? <Error name="address is required" /> : ''}
             />
             <input

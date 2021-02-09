@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import HeaderNav from '../components/HeaderNav';
-import EditProfile from '../components/EditProfile';
+import HeaderNav from './HeaderNav';
+import EditProfile from './EditProfile';
 import HelloWorld from './StyledComponents/HelloWorld';
 import ReactTable from './ReactTable7/ReactTable';
 import TextAssignment from './Assignment/TextAssignment';

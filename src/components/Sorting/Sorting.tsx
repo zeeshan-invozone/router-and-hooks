@@ -12,8 +12,6 @@ const options = [
   { label: 'Ali Ahmed', value: '8' },
 ];
 const Sorting = () => {
-  // removing space from string
-  //   const regex = /\s/g;
   const [sort, setSort] = useState([]);
 
   const arrarySort = (opt) => {
