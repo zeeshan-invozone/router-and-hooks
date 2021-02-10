@@ -16,6 +16,7 @@ import Profile from './Profile';
 import Sorting from './Sorting/Sorting';
 import ResetPassword from './auth/ResetPassword';
 import CloudFunctions from './CouldFunc/CloudFunctions';
+import Example from './Redux/Example';
 const Routes = () => {
   const [user, setUser] = useState('');
   useEffect(() => {
@@ -42,6 +43,7 @@ const Routes = () => {
           <PrivateRoute exact path="/view-profile" component={Profile} />
           <PrivateRoute exact path="/sorting" component={Sorting} />
           <PrivateRoute exact path="/cloud-func" component={CloudFunctions} />
+          <PrivateRoute exact path="/redux-example" component={Example} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/step-2" component={AdditionalInfo} />

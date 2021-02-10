@@ -72,6 +72,12 @@ const HeaderNav = () => {
                   Cloud Functions
                 </Link>
               </Typography>
+              <Typography>
+                <Link className={classes.profile} to="/redux-example">
+                  Redux
+                </Link>
+              </Typography>
+
               <Button color="inherit" onClick={() => firebase.auth().signOut()}>
                 Logout
               </Button>

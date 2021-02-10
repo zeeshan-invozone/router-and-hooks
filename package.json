@@ -21,10 +21,12 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.14.2",
+    "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-select": "^3.2.0",
     "react-table": "^7.6.3",
+    "redux": "^4.0.5",
     "styled-components": "^5.2.1",
     "typescript": "^4.1.3",
     "web-vitals": "^0.2.4"
@@ -36,7 +38,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
+    "format": "prettier --write \"**/*.+(js|tsx|json|css|md)\""
   },
   "browserslist": {
     "production": [
@@ -58,7 +60,7 @@
   "lint-staged": {
     "./src/*.{js,jsx,ts,tsx}": [
       "npx prettier --write",
-      "eslint src/*.jsx --fix-dry-run"
+      "eslint src/*.tsx --fix-dry-run"
     ]
   },
   "eslintConfig": {

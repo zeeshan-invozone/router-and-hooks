@@ -39,14 +39,15 @@ const AdditionalInfo: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const name: string = formRef.current['name'].value;
-  const designation: string = formRef.current['designation'].value;
-  const address: string = formRef.current['address'].value;
-  const age: string = formRef.current['age'].value;
-  const company: string = formRef.current['company'].value;
-
   const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+
+    const name = formRef.current['fname'].value;
+    const designation = formRef.current['designation'].value;
+    const address = formRef.current['address'].value;
+    const age = formRef.current['age'].value;
+    const company = formRef.current['company'].value;
+
     const { uid } = firebase.auth().currentUser;
     if (uid !== null) {
       const res = await CREATE_USER_PROFILE({
@@ -110,7 +111,7 @@ const AdditionalInfo: React.FC = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  name="name"
+                  name="fname"
                   variant="outlined"
                   required
                   fullWidth

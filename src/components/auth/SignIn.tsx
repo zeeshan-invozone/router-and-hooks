@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import firebase from '../Firebase/firebase';
 import { AuthContext } from './Authentication';
 import { SIGN_IN } from '../Firebase/firebase_api';
+import { addData } from '../Redux/Actions';
+import { useDispatch, connect } from 'react-redux';
+
 import {
   Grid,
   makeStyles,
@@ -35,15 +38,16 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-const SignIn = ({ history }) => {
+const SignIn = ({ history, dispatch }) => {
   const classes = useStyles();
+  const disPatch = useDispatch();
   const formRef = useRef<HTMLFormElement>(null);
   const handleLogin = useCallback(
     async (evt: FormEvent<HTMLFormElement>) => {
       evt.preventDefault();
       const email = formRef.current['email'].value;
       const password = formRef.current['password'].value;
-
+      dispatch(addData({ email, password }));
       const res = await SIGN_IN({ email, password });
       const cu = await firebase.auth().currentUser;
       if (cu) {
@@ -126,4 +130,4 @@ const SignIn = ({ history }) => {
   );
 };
 
-export default SignIn;
+export default connect(null)(SignIn);
