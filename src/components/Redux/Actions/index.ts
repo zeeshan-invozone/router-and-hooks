@@ -1,16 +1,18 @@
+import { INCREMENT, DECREMENT, ADD_USER } from '../Types';
 export const increment = () => {
-  return { type: 'INCREMENT' };
+  return { type: INCREMENT };
 };
 
 export const decrement = () => {
   return {
-    type: 'DECREMENT',
+    type: DECREMENT,
   };
 };
 
 export const addData = (data: any) => {
+  console.log(data);
   return {
-    type: 'ADD_USER',
-    data,
+    type: ADD_USER,
+    payload: data,
   };
 };

@@ -2,21 +2,11 @@ const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
+const { api } = require('./Routes/routes');
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
   functions.logger.info('Hello logs!', { structuredData: true });
   response.send('Hello from Firebase!');
-});
-
-exports.resetPassword = functions.https.onRequest(async (req, res) => {
-  // const dynamicText = req.query.text;
-  // console.log('dynamicText', dynamicText);
-
-  const response = await admin
-    .firestore()
-    .collection('test')
-    .add({ text: 'My name is khan' });
-  res.send(response);
 });
 
 exports.addMessage = functions.https.onCall((data, context) => {
@@ -34,7 +24,7 @@ exports.getFullName = functions.https.onCall((data) => {
   };
 });
 
-exports.storeName = functions.firestore
+exports.logActivities = functions.firestore
   .document('/users/{id}')
   .onCreate(async (snap, context) => {
     const data = snap.data();

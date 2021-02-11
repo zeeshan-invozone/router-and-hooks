@@ -1,9 +1,10 @@
-type Action = { type: 'INCREMENT' } | { type: 'DECREMENT' };
-const CounterReducer = (state = 0, action: Action) => {
+import { INCREMENT, DECREMENT } from '../Types';
+//type Action = { payload: {}| null; type: string}
+const CounterReducer = (state = 0, action: any) => {
   switch (action.type) {
-    case 'INCREMENT':
+    case INCREMENT:
       return state + 1;
-    case 'DECREMENT':
+    case DECREMENT:
       return state - 1;
     default:
       return state;
