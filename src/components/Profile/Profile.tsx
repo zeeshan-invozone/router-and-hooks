@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import firebase from './Firebase/firebase';
+import firebase from '../Firebase/firebase';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,

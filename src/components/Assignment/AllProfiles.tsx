@@ -11,7 +11,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import fileData from '../utils/profilesInfo';
+import fileData from '../../utils/profilesInfo';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {

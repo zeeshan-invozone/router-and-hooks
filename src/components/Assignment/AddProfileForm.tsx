@@ -7,9 +7,9 @@ import {
   DialogContent,
   makeStyles,
 } from '@material-ui/core';
-import profilesData from '../utils/profilesInfo';
+import profilesData from '../../utils/profilesInfo';
 import { useForm } from 'react-hook-form';
-import firebase from './Firebase/firebase';
+import firebase from '../Firebase/firebase';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -31,7 +31,7 @@ const AddProfileForm = ({ onClose, show }) => {
   const { register, handleSubmit, errors } = useForm();
   const classes = useStyles();
   const formRef = useRef<HTMLFormElement>();
-  const name: string = formRef.current['name'].value;
+  const name: string = formRef.current['names'].value;
   const designation: string = formRef.current['designation'].value;
   const address: string = formRef.current['address'].value;
   const age: string = formRef.current['age'].value;
@@ -82,7 +82,7 @@ const AddProfileForm = ({ onClose, show }) => {
             ref={formRef}
           >
             <TextField
-              name="nam"
+              name="names"
               label="Name"
               value={name}
               inputRef={register({ required: true })}

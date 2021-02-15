@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { TextField, makeStyles, Button } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router-dom';
-import firebase from './Firebase/firebase';
+import firebase from '../Firebase/firebase';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {

@@ -7,7 +7,7 @@ import {
   Grid,
   Button,
 } from '@material-ui/core';
-import firebase from './Firebase/firebase';
+import firebase from '../Firebase/firebase';
 import { Link } from 'react-router-dom';
 
 const style = makeStyles(() => ({

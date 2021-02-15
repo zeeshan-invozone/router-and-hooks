@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import HeaderNav from './HeaderNav';
-import EditProfile from './EditProfile';
+import HeaderNav from './Assignment/HeaderNav';
+import EditProfile from './Profile/EditProfile';
 import HelloWorld from './StyledComponents/HelloWorld';
 import ReactTable from './ReactTable7/ReactTable';
 import TextAssignment from './Assignment/TextAssignment';
@@ -12,7 +12,7 @@ import SignUp from './auth/SignUp';
 import ForgotPassword from './auth/ForgotPassword';
 import AdditionalInfo from './auth/AdditionalInfo';
 import PrivateRoute from './auth/PrivateRoute';
-import Profile from './Profile';
+import Profile from './Profile/Profile';
 import Sorting from './Sorting/Sorting';
 import ResetPassword from './auth/ResetPassword';
 import CloudFunctions from './CouldFunc/CloudFunctions';

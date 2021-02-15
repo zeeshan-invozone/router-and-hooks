@@ -1,18 +1,31 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
+const express = require('express');
+const bodyParser = require('body-parser');
 admin.initializeApp(functions.config().firebase);
-const db = admin.firestore();
-const { api } = require('./Routes/routes');
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  functions.logger.info('Hello logs!', { structuredData: true });
-  response.send('Hello from Firebase!');
+const db = admin.firestore();
+const app = express();
+exports.api = functions.https.onRequest(app);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.get('/hello-world', (req, res) => {
+  console.log('Hello world');
+  res.send('hi how are you express using firebase');
 });
 
-exports.addMessage = functions.https.onCall((data, context) => {
-  const text = data.text;
-  const email = data.email;
-  return { text, email };
+app.post('/addUser', async (req, res) => {
+  const { firstName, lastName } = req.body;
+  try {
+    const myData = await db.collection('users').add({
+      firstName,
+      lastName,
+    });
+    return res.send(myData.data());
+  } catch (error) {
+    return res.send(error);
+  }
 });
 
 exports.getFullName = functions.https.onCall((data) => {
@@ -42,10 +55,6 @@ exports.updateName = functions.firestore
     const res = await db.collection('users').doc(context.params.id).set({
       name: 'chand',
     });
-
-    console.log('before', before);
-    console.log('after', after);
-    console.log('res', res);
   });
 
 exports.deleteName = functions.firestore
@@ -54,21 +63,4 @@ exports.deleteName = functions.firestore
     const data = snap.data();
     await db.collection('users').doc(context.params.id).delete();
     console.log('deleted successfully', data);
-  });
-
-exports.logActivities = functions.firestore
-  .document('collections/{id}')
-  .onCreate((snap, context) => {
-    const data = snap.data();
-    const id = context.params.id;
-    const collection = context.params.collections;
-    const activities = db.collection('activities');
-
-    if (collection === 'users') {
-      return activities.add({ text: 'new user add in the application' });
-    }
-    if (collection === 'requests') {
-      return activities.add({ text: 'new request added in the application' });
-    }
-    return null;
   });

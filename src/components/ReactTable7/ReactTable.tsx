@@ -3,7 +3,7 @@ import UserData from '../../utils/profilesInfo';
 import { useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import TableContainer from './TableContainer';
-import AddProfileForm from '../AddProfileForm';
+import AddProfileForm from '../Assignment/AddProfileForm';
 import firebase from '../Firebase/firebase';
 
 const ReactTable = () => {
