@@ -47,8 +47,8 @@ const SignIn = ({ history, dispatch }) => {
       evt.preventDefault();
       const email = formRef.current['email'].value;
       const password = formRef.current['password'].value;
-      dispatch(addData({ email, password }));
       const res = await SIGN_IN({ email, password });
+      disPatch(addData({ email, password }));
       const cu = await firebase.auth().currentUser;
       if (cu) {
         alert('Login Successfully');
@@ -130,4 +130,4 @@ const SignIn = ({ history, dispatch }) => {
   );
 };
 
-export default connect(null)(SignIn);
+export default SignIn;

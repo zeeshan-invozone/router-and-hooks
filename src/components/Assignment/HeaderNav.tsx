@@ -9,6 +9,8 @@ import {
 } from '@material-ui/core';
 import firebase from '../Firebase/firebase';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../Redux/Actions';
 
 const style = makeStyles(() => ({
   root: {
@@ -29,7 +31,12 @@ const style = makeStyles(() => ({
   },
 }));
 const HeaderNav = () => {
+  const dispatch = useDispatch();
   const classes = style();
+  const handleSignOut = async () => {
+    await firebase.auth().signOut();
+    dispatch(logout());
+  };
   return (
     <div>
       <AppBar position="static">
@@ -78,7 +85,7 @@ const HeaderNav = () => {
                 </Link>
               </Typography>
 
-              <Button color="inherit" onClick={() => firebase.auth().signOut()}>
+              <Button color="inherit" onClick={handleSignOut}>
                 Logout
               </Button>
             </Grid>
