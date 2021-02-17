@@ -1,41 +1,36 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
-import { LOGIN_SUCCESS, LOGIN_FALIURE } from '../Types';
+import { LOGIN_USER, LOGIN_FALIURE, LOG_OUT, LOGIN_SUCCESS } from '../Types';
 import { SIGN_IN, SIGN_OUT } from '../../Firebase/firebase_api';
 import firebase from '../../Firebase/firebase';
 
 const auth = firebase.auth();
 
 function* login(action: any) {
+  console.log('yield action', action.payload);
   try {
-    const Data = yield call(SIGN_IN, action.payload);
+    const userData = yield call(SIGN_IN, action.payload);
     var user = auth.currentUser;
     if (user) {
-      yield put({ type: LOGIN_SUCCESS, currentUser: user });
+      yield put({ type: LOGIN_SUCCESS, data: userData });
     } else {
-      yield put({ type: LOGIN_FALIURE, currentUser: {} });
+      yield put({ type: LOGIN_FALIURE, data: {} });
     }
-    yield put({ type: 'LOGIN_USER_SUCCESS', login_value: Data });
-
     yield put(push('/'));
-  } catch (e) {
-    yield put({ type: 'LOGIN_FAILED', message_value: e.message });
+  } catch (error) {
+    yield put({ type: LOGIN_FALIURE, data: error.message });
   }
 }
 
-function* logout(action: any) {
-  yield call(SIGN_OUT, action.payload);
-  var user = auth.currentUser;
-  if (user) {
-    yield put({ type: LOGIN_SUCCESS, currentUser: user });
-  } else {
-    yield put({ type: LOGIN_FALIURE, currentUser: {} });
-  }
+function* logOut(action: any) {
+  console.log('saga logout');
+  yield call(SIGN_OUT);
+  yield put(push('/login'));
 }
 
 function* loginSaga() {
-  yield takeEvery('LOGIN_USER', login);
-  yield takeEvery('LOGOUT_USER', logout);
+  yield takeEvery(LOGIN_USER, login);
+  yield takeEvery(LOG_OUT, logOut);
 }
 
 export default loginSaga;

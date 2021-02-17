@@ -34,7 +34,7 @@ const HeaderNav = () => {
   const dispatch = useDispatch();
   const classes = style();
   const handleSignOut = async () => {
-    await firebase.auth().signOut();
+    // await firebase.auth().signOut();
     dispatch(logout());
   };
   return (

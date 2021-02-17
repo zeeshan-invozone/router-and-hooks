@@ -7,7 +7,7 @@ const allReducer = (history: any) =>
   combineReducers({
     count: CounterReducer,
     router: connectRouter(history),
-    user: UserReducer,
+    auth: UserReducer,
     getData: getDataReducer,
   });
 

@@ -1,5 +1,6 @@
 import { INCREMENT, DECREMENT, LOGIN_USER, GET_DATA, LOG_OUT } from '../Types';
 import Axios from 'axios';
+
 export const increment = () => {
   return { type: INCREMENT };
 };
@@ -10,7 +11,7 @@ export const decrement = () => {
   };
 };
 
-export const addData = (data: any) => {
+export const login = (data: any) => {
   return {
     type: LOGIN_USER,
     payload: data,
@@ -18,7 +19,6 @@ export const addData = (data: any) => {
 };
 
 export const logout = () => {
-  console.log('logout');
   return {
     type: LOG_OUT,
   };
