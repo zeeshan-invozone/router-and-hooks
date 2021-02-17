@@ -1,10 +1,9 @@
 import React, { FormEvent, useCallback, useContext, useRef } from 'react';
 import { withRouter, Redirect } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import firebase from '../Firebase/firebase';
 import { AuthContext } from './Authentication';
 import { SIGN_IN } from '../Firebase/firebase_api';
-import { login } from '../Redux/Actions';
 import { useDispatch, connect } from 'react-redux';
 
 import {
@@ -42,22 +41,22 @@ const SignIn = () => {
   const classes = useStyles();
   const disPatch = useDispatch();
   const formRef = useRef<HTMLFormElement>(null);
-
+  const history = useHistory();
   const handleLogin = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const email = formRef.current['email'].value;
     const password = formRef.current['password'].value;
-    disPatch(login({ email, password }));
-    // const res = await SIGN_IN({ email, password });
-    // const cu = await firebase.auth().currentUser;
-    // if (cu) {
-    //   disPatch(login({ email, currentUser: cu }));
-    //   alert('Login Successfully');
-    //   history.push('/');
-    // } else {
-    //   disPatch({ type: 'LOGIN_FALIURE', error: res });
-    //   alert(res);
-    // }
+    const res = await SIGN_IN({ email, password });
+    disPatch({ type: 'LOGIN_REQUEST', payload: 'Loading...' });
+    const cu = await firebase.auth().currentUser;
+    if (cu) {
+      disPatch({ type: 'LOGIN_SUCCESS', payload: cu });
+      alert('Login Successfully');
+      history.push('/');
+    } else {
+      disPatch({ type: 'LOGIN_FALIURE', error: res });
+      alert(res);
+    }
   };
 
   const { currentUser } = useContext(AuthContext);

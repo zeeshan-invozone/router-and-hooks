@@ -10,7 +10,7 @@ import {
 import firebase from '../Firebase/firebase';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logout } from '../Redux/Actions';
+import { SIGN_OUT } from '../Firebase/firebase_api';
 
 const style = makeStyles(() => ({
   root: {
@@ -34,8 +34,9 @@ const HeaderNav = () => {
   const dispatch = useDispatch();
   const classes = style();
   const handleSignOut = async () => {
-    // await firebase.auth().signOut();
-    dispatch(logout());
+    const res = await SIGN_OUT();
+    dispatch({ type: 'LOGOUT' });
+    console.log('signout ');
   };
   return (
     <div>

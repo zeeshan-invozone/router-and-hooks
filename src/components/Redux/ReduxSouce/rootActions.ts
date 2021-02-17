@@ -1,10 +1,8 @@
 import { createActions } from 'reduxsauce';
 
 export const { Types, Creators } = createActions({
-  loginRequest: ['username', 'password'],
+  loginRequest: ['payload'],
   loginSuccess: ['username'],
   loginFailure: ['error'],
   logout: null,
-  withdrawTwenty: null,
-  depositCash: ['payload'],
 });

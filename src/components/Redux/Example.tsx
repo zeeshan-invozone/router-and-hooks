@@ -1,37 +1,25 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch, connect } from 'react-redux';
-import { increment, decrement, getData } from './Actions';
-import { Creators } from '../Redux/ReduxSouce/rootActions';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Button } from '@material-ui/core';
+import Types from '../Redux/ReduxSouce/Types';
 const Example = (props) => {
-  const [posts, setPosts] = useState([]);
-  const balance = useSelector((state) => state.balance);
-  const data = useSelector((state) => state.getData);
   const disPatch = useDispatch();
   const getDataFromApi = async (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
-    await disPatch(getData());
   };
 
   const handleWidthdraw = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
-    console.log('withdraw');
-    disPatch({ type: 'WITHDRAW_TWENTY' });
+    disPatch({ type: Types.LOGIN_REQUEST, payload: 'hi how are you' });
   };
   return (
     <div className="p-3">
-      <div>Balance : {balance}</div>
+      <div>Balance</div>
       <div>
         <Button variant="contained" color="default" onClick={handleWidthdraw}>
-          Withdraw
+          Submit
         </Button>
-        <Button
-          variant="contained"
-          color="default"
-          onClick={() => disPatch({ type: 'DEPOSIT_CASH', payload: 50 })}
-        >
-          Deposit
-        </Button>
+
         <div className="pt-2">
           <Button variant="contained" color="default" onClick={getDataFromApi}>
             Fetch Data From Api

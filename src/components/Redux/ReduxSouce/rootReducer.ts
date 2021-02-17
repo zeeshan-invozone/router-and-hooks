@@ -1,18 +1,53 @@
-import { createReducer, createActions } from 'reduxsauce';
+import { createReducer } from 'reduxsauce';
 import Types from './Types';
-const INITIAL_STATE = { balance: 100 };
-
-const depositCash = (state = INITIAL_STATE, action: any) => {
-  return { ...state, balance: state.balance + action.payload };
+const INITIAL_STATE = {
+  islogged: false,
+  user: {},
+  error: '',
 };
 
-const withdrawTwenty = (state = INITIAL_STATE, action: any) => {
-  return { ...state, balance: state.balance - 20 };
+const loginRequest = (state = INITIAL_STATE, action: any) => {
+  console.log('login action', action.payload);
+  return {
+    ...state,
+    islogged: false,
+    user: action.payload,
+    error: '',
+  };
+};
+const loginSuccess = (state = INITIAL_STATE, action: any) => {
+  console.log('login action', action.payload);
+  return {
+    ...state,
+    islogged: true,
+    user: action.payload,
+    error: '',
+  };
+};
+const loginFailure = (state = INITIAL_STATE, action: any) => {
+  console.log('login action', action.payload);
+  return {
+    ...state,
+    user: {},
+    islogged: false,
+    error: action.payload,
+  };
+};
+
+const logout = (state = INITIAL_STATE, action: any) => {
+  return {
+    ...state,
+    user: {},
+    islogged: false,
+    error: '',
+  };
 };
 
 const HANDLERS = {
-  [Types.DEPOSIT_CASH]: depositCash,
-  [Types.WITHDRAW_TWENTY]: withdrawTwenty,
+  [Types.LOGIN_REQUEST]: loginRequest,
+  [Types.LOGIN_SUCCESS]: loginSuccess,
+  [Types.LOGIN_FAILURE]: loginFailure,
+  [Types.LOGOUT]: logout,
 };
 
 export const reducer = createReducer(INITIAL_STATE, HANDLERS);
